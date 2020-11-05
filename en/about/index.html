@@ -14,11 +14,11 @@
 
     <title>About | ChuChin</title>
 
-    <link rel="stylesheet" href="../../en/css/meme.min.448b2a3f0d5967ff0adfc31371997de1d666edc907996da8a9e7c619090b1664.css"/>
+    <link rel="stylesheet" href="../../en/css/meme.min.css" />
 
     
     
-        <script src="../../en/js/meme.min.c8fba02a4c730c53a8954f61e3b540345bd0c23e056068f142d182f7030cffbb.js"></script>
+        <script src="../../en/js/meme.min.js"></script>
 
     
 
@@ -226,7 +226,14 @@
 
 
         </div>
-        
+        <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('\/sw.js');
+            });
+        }
+    </script>
+
 
         
 
