@@ -7,7 +7,7 @@
 
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
-        <title>ChuChinRCC</title>
+        <title>ChuChin</title>
         <link>https://chuchin.cn/</link>
         <description>这里是ChuChin的个人博客，关键词：生活、技术</description>
         <generator>Hugo 0.78.0 https://gohugo.io/</generator>
@@ -23,7 +23,7 @@
         
             <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
         
-        <lastBuildDate>Thu, 05 Nov 2020 20:24:55 &#43;0800</lastBuildDate>
+        <lastBuildDate>Thu, 05 Nov 2020 21:23:16 &#43;0800</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://chuchin.cn/rss.xml" />
         
