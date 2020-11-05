@@ -4,7 +4,7 @@
   
   <url>
     <loc>https://chuchin.cn/</loc>
-    <lastmod>2020-11-05T16:45:20+08:00</lastmod>
+    <lastmod>2020-11-05T17:17:52+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -40,6 +40,21 @@
   <url>
     <loc>https://chuchin.cn/tags/%E5%93%88%E5%93%88/</loc>
     <lastmod>2020-11-05T16:45:20+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://chuchin.cn/about/</loc>
+    <lastmod>2020-11-05T17:17:52+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://chuchin.cn/en/about/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh"
+                href="https://chuchin.cn/about/"
+                />
   </url>
   
   <url>
