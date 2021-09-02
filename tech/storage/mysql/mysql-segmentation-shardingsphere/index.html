@@ -1,0 +1,1395 @@
+<!doctype html><html lang=zh-cn>
+<head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
+<meta charset=utf-8>
+<meta name=generator content="Hugo 0.87.0"><meta name=theme-color content="#16171d">
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=format-detection content="telephone=no, date=no, address=no, email=no">
+<meta http-equiv=cache-control content="no-transform">
+<meta http-equiv=cache-control content="no-siteapp">
+<title>MySQL ShardingSphere实战 | ChuChin</title>
+<link rel=stylesheet href=../../../../css/meme.min.css>
+<script src=../../../../js/meme.min.js></script>
+<link rel=preconnect href=https://fonts.gstatic.com crossorigin>
+<link rel=stylesheet href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,700&family=Noto+Serif+SC:wght@400;500;700&family=Source+Code+Pro:ital,wght@0,400;0,700;1,400;1,700&display=swap" media=print onload="this.media='all'">
+<noscript><link rel=stylesheet href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,700&family=Noto+Serif+SC:wght@400;500;700&family=Source+Code+Pro:ital,wght@0,400;0,700;1,400;1,700&display=swap"></noscript>
+<meta name=author content="Chu"><meta name=description content="本文源代码下载：mysql-example.zip ShardingSphere 介绍 Apache ShardingSpher……">
+<link rel="shortcut icon" href=../../../../favicon.ico type=image/x-icon>
+<link rel=mask-icon href=../../../../icons/safari-pinned-tab.svg color=#2a6df4>
+<link rel=apple-touch-icon sizes=180x180 href=../../../../icons/apple-touch-icon.png>
+<meta name=apple-mobile-web-app-capable content="yes">
+<meta name=apple-mobile-web-app-title content="ChuChin">
+<meta name=apple-mobile-web-app-status-bar-style content="black-translucent">
+<meta name=mobile-web-app-capable content="yes">
+<meta name=application-name content="ChuChin">
+<meta name=msapplication-starturl content="../../../../">
+<meta name=msapplication-TileColor content="#fff">
+<meta name=msapplication-TileImage content="../../../../icons/mstile-150x150.png">
+<link rel=manifest href=../../../../manifest.json>
+<link rel=canonical href=https://chuchin.cn/tech/storage/mysql/mysql-segmentation-shardingsphere/>
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","datePublished":"2020-09-18T10:21:43+08:00","dateModified":"2021-09-02T13:08:51+08:00","url":"https://chuchin.cn/tech/storage/mysql/mysql-segmentation-shardingsphere/","headline":"MySQL ShardingSphere实战","description":"本文源代码下载：mysql-example.zip ShardingSphere 介绍 Apache ShardingSpher……","inLanguage":"zh-CN","articleSection":"tech","wordCount":21062,"image":["https://gitee.com/chuchin/img/raw/master/20201223-143757-0407.png","https://gitee.com/chuchin/img/raw/master/20201223-152714-0083.png","https://gitee.com/chuchin/img/raw/master/20201223-152516-0853.png","https://gitee.com/chuchin/img/raw/master/20201223-152917-0922.png","https://gitee.com/chuchin/img/raw/master/20201223-150926-0344.png","https://gitee.com/chuchin/img/raw/master/20201223-150453-0387.png","C:%5CUsers%5CChuChinRCC%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1608710403623.png","https://gitee.com/chuchin/img/raw/master/20201223-170402-0515.png","https://gitee.com/chuchin/img/raw/master/20201224-104831-0848.png","https://gitee.com/chuchin/img/raw/master/20201224-103833-0818.png","https://gitee.com/chuchin/img/raw/master/20201224-103438-0703.png","https://gitee.com/chuchin/img/raw/master/20201224-104242-0690.png","https://gitee.com/chuchin/img/raw/master/20201224-100644-0735.png","https://gitee.com/chuchin/img/raw/master/20201224-104956-0772.png","https://gitee.com/chuchin/img/raw/master/20201224-101458-0845.png","https://gitee.com/chuchin/img/raw/master/20201224-114600-0608.png","https://gitee.com/chuchin/img/raw/master/20201224-112901-0278.png","https://gitee.com/chuchin/img/raw/master/20201224-114904-0483.png","https://gitee.com/chuchin/img/raw/master/20201224-112415-0983.png","https://gitee.com/chuchin/img/raw/master/20201224-111118-0407.png","https://gitee.com/chuchin/img/raw/master/20201224-114919-0414.png","https://gitee.com/chuchin/img/raw/master/20201224-111423-0250.png","https://gitee.com/chuchin/img/raw/master/20201224-112925-0885.png","https://gitee.com/chuchin/img/raw/master/20201224-110928-0259.png","https://gitee.com/chuchin/img/raw/master/20201224-132939-0389.png","https://gitee.com/chuchin/img/raw/master/20201224-131841-0805.png","https://gitee.com/chuchin/img/raw/master/20201224-145735-0197.png","https://gitee.com/chuchin/img/raw/master/20201224-141308-0645.png"],"author":{"@type":"Person","description":"hand on","email":"edmond1122@foxmail.com","image":"https://chuchin.cn/icons/apple-touch-icon.png","url":"https://chuchin.cn/","name":"Chu"},"license":"[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)","publisher":{"@type":"Organization","name":"ChuChin","logo":{"@type":"ImageObject","url":"https://chuchin.cn/icons/apple-touch-icon.png"},"url":"https://chuchin.cn/"},"mainEntityOfPage":{"@type":"WebSite","@id":"https://chuchin.cn/"}}</script>
+<meta name=twitter:card content="summary_large_image">
+<meta property="og:title" content="MySQL ShardingSphere实战">
+<meta property="og:description" content="本文源代码下载：mysql-example.zip ShardingSphere 介绍 Apache ShardingSpher……">
+<meta property="og:url" content="https://chuchin.cn/tech/storage/mysql/mysql-segmentation-shardingsphere/">
+<meta property="og:site_name" content="ChuChin">
+<meta property="og:locale" content="zh"><meta property="og:image" content="https://gitee.com/chuchin/img/raw/master/20201223-143757-0407.png">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2020-09-18T10:21:43+08:00">
+<meta property="article:modified_time" content="2021-09-02T13:08:51+08:00">
+<meta property="article:section" content="tech">
+</head>
+<body>
+<div class=container>
+<header class=header>
+<div class=site-brand>
+<a href=../../../../ class=brand>ChuChin</a>
+</div>
+</header>
+<nav class=nav>
+<ul class=menu id=menu>
+<li class=menu-item><a href=../../../../categories/><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon categories"><path d="M149.333 56v80c0 13.255-10.745 24-24 24H24c-13.255.0-24-10.745-24-24V56c0-13.255 10.745-24 24-24h101.333c13.255.0 24 10.745 24 24zm181.334 240v-80c0-13.255-10.745-24-24-24H205.333c-13.255.0-24 10.745-24 24v80c0 13.255 10.745 24 24 24h101.333c13.256.0 24.001-10.745 24.001-24zm32-240v80c0 13.255 10.745 24 24 24H488c13.255.0 24-10.745 24-24V56c0-13.255-10.745-24-24-24H386.667c-13.255.0-24 10.745-24 24zm-32 80V56c0-13.255-10.745-24-24-24H205.333c-13.255.0-24 10.745-24 24v80c0 13.255 10.745 24 24 24h101.333c13.256.0 24.001-10.745 24.001-24zm-205.334 56H24c-13.255.0-24 10.745-24 24v80c0 13.255 10.745 24 24 24h101.333c13.255.0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24zM0 376v80c0 13.255 10.745 24 24 24h101.333c13.255.0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H24c-13.255.0-24 10.745-24 24zm386.667-56H488c13.255.0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H386.667c-13.255.0-24 10.745-24 24v80c0 13.255 10.745 24 24 24zm0 160H488c13.255.0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H386.667c-13.255.0-24 10.745-24 24v80c0 13.255 10.745 24 24 24zM181.333 376v80c0 13.255 10.745 24 24 24h101.333c13.255.0 24-10.745 24-24v-80c0-13.255-10.745-24-24-24H205.333c-13.255.0-24 10.745-24 24z"/></svg><span class=menu-item-name>技术</span></a>
+</li>
+<li class=menu-item><a href=../../../../other/><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon grav"><path d="M301.1 212c4.4 4.4 4.4 11.9.0 16.3l-9.7 9.7c-4.4 4.7-11.9 4.7-16.6.0l-10.5-10.5c-4.4-4.7-4.4-11.9.0-16.6l9.7-9.7c4.4-4.4 11.9-4.4 16.6.0l10.5 10.8zm-30.2-19.7c3-3 3-7.8.0-10.5-2.8-3-7.5-3-10.5.0-2.8 2.8-2.8 7.5.0 10.5 3.1 2.8 7.8 2.8 10.5.0zm-26 5.3c-3 2.8-3 7.5.0 10.2 2.8 3 7.5 3 10.5.0 2.8-2.8 2.8-7.5.0-10.2-3-3-7.7-3-10.5.0zm72.5-13.3c-19.9-14.4-33.8-43.2-11.9-68.1 21.6-24.9 40.7-17.2 59.8.8 11.9 11.3 29.3 24.9 17.2 48.2-12.5 23.5-45.1 33.2-65.1 19.1zm47.7-44.5c-8.9-10-23.3 6.9-15.5 16.1 7.4 9 32.1 2.4 15.5-16.1zM504 256c0 137-111 248-248 248S8 393 8 256 119 8 256 8s248 111 248 248zm-66.2 42.6c2.5-16.1-20.2-16.6-25.2-25.7-13.6-24.1-27.7-36.8-54.5-30.4 11.6-8 23.5-6.1 23.5-6.1.3-6.4.0-13-9.4-24.9 3.9-12.5.3-22.4.3-22.4 15.5-8.6 26.8-24.4 29.1-43.2 3.6-31-18.8-59.2-49.8-62.8-22.1-2.5-43.7 7.7-54.3 25.7-23.2 40.1 1.4 70.9 22.4 81.4-14.4-1.4-34.3-11.9-40.1-34.3-6.6-25.7 2.8-49.8 8.9-61.4.0.0-4.4-5.8-8-8.9.0.0-13.8.0-24.6 5.3 11.9-15.2 25.2-14.4 25.2-14.4.0-6.4-.6-14.9-3.6-21.6-5.4-11-23.8-12.9-31.7 2.8.1-.2.3-.4.4-.5-5 11.9-1.1 55.9 16.9 87.2-2.5 1.4-9.1 6.1-13 10-21.6 9.7-56.2 60.3-56.2 60.3-28.2 10.8-77.2 50.9-70.6 79.7.3 3 1.4 5.5 3 7.5-2.8 2.2-5.5 5-8.3 8.3-11.9 13.8-5.3 35.2 17.7 24.4 15.8-7.2 29.6-20.2 36.3-30.4.0.0-5.5-5-16.3-4.4 27.7-6.6 34.3-9.4 46.2-9.1 8 3.9 8-34.3 8-34.3.0-14.7-2.2-31-11.1-41.5 12.5 12.2 29.1 32.7 28 60.6-.8 18.3-15.2 23-15.2 23-9.1 16.6-43.2 65.9-30.4 106 0 0-9.7-14.9-10.2-22.1-17.4 19.4-46.5 52.3-24.6 64.5 26.6 14.7 108.8-88.6 126.2-142.3 34.6-20.8 55.4-47.3 63.9-65 22 43.5 95.3 94.5 101.1 59z"/></svg><span class=menu-item-name>杂坛</span></a>
+</li>
+<li class=menu-item><a href=../../../../tags/><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" class="icon tags"><path d="M497.941 225.941 286.059 14.059A48 48 0 00252.118.0H48C21.49.0.0 21.49.0 48v204.118a48 48 0 0014.059 33.941l211.882 211.882c18.744 18.745 49.136 18.746 67.882.0l204.118-204.118c18.745-18.745 18.745-49.137.0-67.882zM112 160c-26.51.0-48-21.49-48-48s21.49-48 48-48 48 21.49 48 48-21.49 48-48 48zm513.941 133.823L421.823 497.941c-18.745 18.745-49.137 18.745-67.882.0l-.36-.36L527.64 323.522c16.999-16.999 26.36-39.6 26.36-63.64s-9.362-46.641-26.36-63.64L331.397.0h48.721a48 48 0 0133.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137.0 67.882z"/></svg><span class=menu-item-name>标签</span></a>
+</li>
+<li class=menu-item><a href=../../../../about/><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" class="icon user-circle"><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 96c48.6.0 88 39.4 88 88s-39.4 88-88 88-88-39.4-88-88 39.4-88 88-88zm0 344c-58.7.0-111.3-26.6-146.5-68.2 18.8-35.4 55.6-59.8 98.5-59.8 2.4.0 4.8.4 7.1 1.1 13 4.2 26.6 6.9 40.9 6.9s28-2.7 40.9-6.9c2.3-.7 4.7-1.1 7.1-1.1 42.9.0 79.7 24.4 98.5 59.8C359.3 421.4 306.7 448 248 448z"/></svg><span class=menu-item-name>关于</span></a>
+</li>
+</ul>
+</nav>
+<a id=theme-switcher href=#><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon theme-icon-light"><path d="M193.2 104.5 242 7a18 18 0 0128 0l48.8 97.5L422.2 70A18 18 0 01442 89.8l-34.5 103.4L505 242a18 18 0 010 28l-97.5 48.8L442 422.2A18 18 0 01422.2 442l-103.4-34.5L270 505a18 18 0 01-28 0l-48.8-97.5L89.8 442A18 18 0 0170 422.2l34.5-103.4-97.5-48.8a18 18 0 010-28l97.5-48.8L70 89.8A18 18 0 0189.8 70zM256 128a128 128 0 10.01.0M256 160a96 96 0 10.01.0"/></svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon theme-icon-dark"><path d="M27 412A256 256 0 10181 5a11.5 11.5.0 00-5 20A201.5 201.5.0 0142 399a11.5 11.5.0 00-15 13"/></svg></a>
+<main class="main single" id=main>
+<div class=main-inner>
+<article class="content post h-entry" data-align=justify data-type=tech data-toc-num=true>
+<h1 class="post-title p-name">MySQL ShardingSphere实战</h1>
+<div class=post-meta>
+</div>
+<nav class=contents>
+<h2 id=contents class=contents-title>目录</h2><ol class=toc>
+<li><a id=contents:shardingsphere-介绍 href=#shardingsphere-介绍>ShardingSphere 介绍</a></li>
+<li><a id=contents:sharding-jdbc href=#sharding-jdbc>Sharding-JDBC</a></li>
+<li><a id=contents:数据分片剖析实战 href=#数据分片剖析实战>数据分片剖析实战</a>
+<ol>
+<li><a id=contents:核心概念 href=#核心概念>核心概念</a></li>
+<li><a id=contents:流程剖析 href=#流程剖析>流程剖析</a></li>
+<li><a id=contents:sql使用规范 href=#sql使用规范>SQL使用规范</a></li>
+<li><a id=contents:其他功能 href=#其他功能>其他功能</a></li>
+</ol>
+</li>
+<li><a id=contents:读写分离剖析实战 href=#读写分离剖析实战>读写分离剖析实战</a></li>
+<li><a id=contents:强制路由剖析实战 href=#强制路由剖析实战>强制路由剖析实战</a></li>
+<li><a id=contents:数据脱敏剖析实战 href=#数据脱敏剖析实战>数据脱敏剖析实战</a>
+<ol>
+<li><a id=contents:整体架构 href=#整体架构>整体架构</a></li>
+<li><a id=contents:脱敏规则 href=#脱敏规则>脱敏规则</a></li>
+<li><a id=contents:脱敏处理流程 href=#脱敏处理流程>脱敏处理流程</a></li>
+<li><a id=contents:加密策略解析 href=#加密策略解析>加密策略解析</a></li>
+</ol>
+</li>
+<li><a id=contents:分布式事务剖析实战 href=#分布式事务剖析实战>分布式事务剖析实战</a>
+<ol>
+<li><a id=contents:分布式事务理论 href=#分布式事务理论>分布式事务理论</a></li>
+<li><a id=contents:分布式事务模式 href=#分布式事务模式>分布式事务模式</a>
+<ol>
+<li><a id=contents:2pc模式强一致性 href=#2pc模式强一致性>2PC模式（强一致性）</a></li>
+<li><a id=contents:3pc模式强一致性 href=#3pc模式强一致性>3PC模式（强一致性）</a></li>
+<li><a id=contents:xa强一致性 href=#xa强一致性>XA（强一致性）</a></li>
+<li><a id=contents:tcc模式最终一致性 href=#tcc模式最终一致性>TCC模式（最终一致性）</a></li>
+<li><a id=contents:消息队列模式最终一致性 href=#消息队列模式最终一致性>消息队列模式（最终一致性）</a></li>
+<li><a id=contents:saga模式最终一致性 href=#saga模式最终一致性>Saga模式（最终一致性）</a></li>
+<li><a id=contents:seata框架 href=#seata框架>Seata框架</a></li>
+</ol>
+</li>
+<li><a id=contents:sharding-jdbc整合xa原理 href=#sharding-jdbc整合xa原理>Sharding-JDBC整合XA原理</a></li>
+<li><a id=contents:sharding-jdbc整合saga原理 href=#sharding-jdbc整合saga原理>Sharding-JDBC整合Saga原理</a></li>
+<li><a id=contents:sharding-jdbc整合seata原理 href=#sharding-jdbc整合seata原理>Sharding-JDBC整合Seata原理</a></li>
+</ol>
+</li>
+<li><a id=contents:sharding-jdbc分布式事务实战 href=#sharding-jdbc分布式事务实战>Sharding-JDBC分布式事务实战</a></li>
+<li><a id=contents:spi-加载剖析 href=#spi-加载剖析>SPI 加载剖析</a></li>
+<li><a id=contents:编排治理剖析 href=#编排治理剖析>编排治理剖析</a></li>
+<li><a id=contents:sharding-proxy实战 href=#sharding-proxy实战>Sharding-Proxy实战</a></li>
+</ol>
+</nav><div class="post-body e-content">
+<p><em>本文源代码下载：<a href=../../../../file/mysql/mysql-example.zip>mysql-example.zip</a></em></p>
+<h2 id=shardingsphere-介绍><a href=#shardingsphere-介绍 class=anchor-link><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href=#contents:shardingsphere-介绍 class=headings>ShardingSphere 介绍</a></h2>
+<p style=text-indent:0><span class=drop-cap>A</span>pache ShardingSphere是一款开源的分布式数据库中间件组成的生态圈。它由Sharding-JDBC、 Sharding-Proxy和Sharding-Sidecar（规划中）这3款相互独立的产品组成。 他们均提供标准化的数据 分片、分布式事务和数据库治理功能，可适用于如Java同构、异构语言、容器、云原生等各种多样化的 应用场景。</p>
+<p>ShardingSphere项目状态如下：</p>
+<p><img src=https://gitee.com/chuchin/img/raw/master/20201223-143757-0407.png alt=20201223-143757-0407.png></p>
+<p>ShardingSphere定位为关系型数据库中间件，旨在充分合理地在分布式的场景下利用关系型数据库的 计算和存储能力，而并非实现一个全新的关系型数据库。</p>
+<p><img src=https://gitee.com/chuchin/img/raw/master/20201223-152714-0083.png alt=20201223-152714-0083.png></p>
+<ul>
+<li>Sharding-JDBC：被定位为轻量级Java框架，在Java的JDBC层提供的额外服务，以jar包形式使用。</li>
+<li>Sharding-Proxy：被定位为透明化的数据库代理端，提供封装了数据库二进制协议的服务端版本，用于完成对异构语言的支持。</li>
+<li>Sharding-Sidecar：被定位为Kubernetes或Mesos的云原生数据库代理，以DaemonSet的形式代理所有对数据库的访问。</li>
+</ul>
+<p><img src=https://gitee.com/chuchin/img/raw/master/20201223-152516-0853.png alt=20201223-152516-0853.png></p>
+<p>Sharding-JDBC、Sharding-Proxy和Sharding-Sidecar三者区别如下：</p>
+<p><img src=https://gitee.com/chuchin/img/raw/master/20201223-152917-0922.png alt=20201223-152917-0922.png></p>
+<p>ShardingSphere安装包下载：https://shardingsphere.apache.org/document/current/cn/downloads/</p>
+<p><img src=https://gitee.com/chuchin/img/raw/master/20201223-150926-0344.png alt=20201223-150926-0344.png></p>
+<p>使用Git下载工程：git clone <a href=https://github.com/apache/incubator-shardingsphere.git target=_blank rel=noopener>https://github.com/apache/incubator-shardingsphere.git</a></p>
+<h2 id=sharding-jdbc><a href=#sharding-jdbc class=anchor-link><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href=#contents:sharding-jdbc class=headings>Sharding-JDBC</a></h2>
+<p>Sharding-JDBC定位为轻量级Java框架，在Java的JDBC层提供的额外服务。 它使用客户端直连数据库， 以jar包形式提供服务，无需额外部署和依赖，可理解为增强版的JDBC驱动，完全兼容JDBC和各种ORM 框架的使用。</p>
+<ul>
+<li>适用于任何基于Java的ORM框架，如：JPA, Hibernate, Mybatis, Spring JDBC Template或直接使 用JDBC。</li>
+<li>基于任何第三方的数据库连接池，如：DBCP, C3P0, BoneCP, Druid, HikariCP等。</li>
+<li>支持任意实现JDBC规范的数据库。目前支持MySQL，Oracle，SQLServer和PostgreSQL。</li>
+</ul>
+<p><img src=https://gitee.com/chuchin/img/raw/master/20201223-150453-0387.png alt=20201223-150453-0387.png></p>
+<p>Sharding-JDBC主要功能：</p>
+<ul>
+<li>数据分片
+<ul>
+<li>分库、分表</li>
+<li>读写分离</li>
+<li>分片策略</li>
+<li>分布式主键</li>
+</ul>
+</li>
+<li>分布式事务
+<ul>
+<li>标准化的事务接口</li>
+<li>XA强一致性事务</li>
+<li>柔性事务</li>
+</ul>
+</li>
+<li>数据库治理
+<ul>
+<li>配置动态化</li>
+<li>编排和治理</li>
+<li>数据脱敏</li>
+<li>可视化链路追踪</li>
+</ul>
+</li>
+</ul>
+<p><strong>Sharding-JDBC 内部结构：</strong></p>
+<p><img src=C:%5CUsers%5CChuChinRCC%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1608710403623.png alt=1608710403623></p>
+<ul>
+<li>图中黄色部分表示的是Sharding-JDBC的入口API，采用工厂方法的形式提供。 目前有 ShardingDataSourceFactory和MasterSlaveDataSourceFactory两个工厂类。
+<ul>
+<li>ShardingDataSourceFactory支持分库分表、读写分离操作</li>
+<li>MasterSlaveDataSourceFactory支持读写分离操作</li>
+</ul>
+</li>
+<li>图中蓝色部分表示的是Sharding-JDBC的配置对象，提供灵活多变的配置方式。 ShardingRuleConfiguration是分库分表配置的核心和入口，它可以包含多个 TableRuleConfiguration和MasterSlaveRuleConfiguration。
+<ul>
+<li>TableRuleConfiguration封装的是表的分片配置信息，有5种配置形式对应不同的 Configuration类型。</li>
+<li>MasterSlaveRuleConfiguration封装的是读写分离配置信息。</li>
+</ul>
+</li>
+<li>图中红色部分表示的是内部对象，由Sharding-JDBC内部使用，应用开发者无需关注。ShardingJDBC通过ShardingRuleConfiguration和MasterSlaveRuleConfiguration生成真正供 ShardingDataSource和MasterSlaveDataSource使用的规则对象。ShardingDataSource和 MasterSlaveDataSource实现了DataSource接口，是JDBC的完整实现方案。</li>
+</ul>
+<p><strong>Sharding-JDBC初始化流程：</strong></p>
+<ul>
+<li>根据配置的信息生成Configuration对象</li>
+<li>通过Factory会将Configuration对象转化为Rule对象</li>
+<li>通过Factory会将Rule对象与DataSource对象封装</li>
+<li>Sharding-JDBC使用DataSource进行分库分表和读写分离操作</li>
+</ul>
+<p><strong>Sharding-JDBC 使用过程：</strong></p>
+<ul>
+<li>
+<p>引入maven依赖</p>
+<div class=highlight><div class=chroma>
+<div class=table-container><table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-xml data-lang=xml><span class=nt>&lt;dependency&gt;</span> 
+    <span class=nt>&lt;groupId&gt;</span>org.apache.shardingsphere<span class=nt>&lt;/groupId&gt;</span> 
+    <span class=nt>&lt;artifactId&gt;</span>sharding-jdbc-core<span class=nt>&lt;/artifactId&gt;</span> 
+    <span class=nt>&lt;version&gt;</span>${latest.release.version}<span class=nt>&lt;/version&gt;</span>
+<span class=nt>&lt;/dependency&gt;</span>
+</code></pre></td></tr></table></div>
+</div>
+</div><p>注意: 请将${latest.release.version}更改为实际的版本号。</p>
+</li>
+<li>
+<p>规则配置</p>
+<p>Sharding-JDBC可以通过Java，YAML，Spring命名空间和Spring Boot Starter四种方式配置，开 发者可根据场景选择适合的配置方式。</p>
+</li>
+<li>
+<p>创建DataSource</p>
+<p>通过ShardingDataSourceFactory工厂和规则配置对象获取ShardingDataSource，然后即可通过 DataSource选择使用原生JDBC开发，或者使用JPA, MyBatis等ORM工具。</p>
+<div class=highlight><div class=chroma>
+<div class=table-container><table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=n>DataSource</span> <span class=n>dataSource</span> <span class=o>=</span> <span class=n>ShardingSphereDataSourceFactory</span><span class=o>.</span><span class=na>createDataSource</span><span class=o>(</span><span class=n>dataSourceMap</span><span class=o>,</span> <span class=n>configurations</span><span class=o>,</span> <span class=n>properties</span><span class=o>);</span>
+</code></pre></td></tr></table></div>
+</div>
+</div></li>
+</ul>
+<h2 id=数据分片剖析实战><a href=#数据分片剖析实战 class=anchor-link><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href=#contents:数据分片剖析实战 class=headings>数据分片剖析实战</a></h2>
+<h3 id=核心概念><a href=#核心概念 class=anchor-link><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href=#contents:核心概念 class=headings>核心概念</a></h3>
+<ul>
+<li>
+<p>表概念</p>
+<ul>
+<li>
+<p>真实表</p>
+<p>数据库中真实存在的物理表。例如b_order0、b_order1</p>
+</li>
+<li>
+<p>逻辑表</p>
+<p>在分片之后，同一类表结构的名称（总成）。例如b_order。</p>
+</li>
+<li>
+<p>数据节点</p>
+<p>在分片之后，由数据源和数据表组成。例如ds0.b_order1</p>
+</li>
+<li>
+<p>绑定表</p>
+<p>指的是分片规则一致的关系表（主表、子表），例如b_order和b_order_item，均按照 order_id分片，则此两个表互为绑定表关系。绑定表之间的多表关联查询不会出现笛卡尔积关联，可以提升关联查询效率。</p>
+<div class=highlight><div class=chroma>
+<div class=table-container><table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-sql data-lang=sql><span class=n>b_order</span><span class=err>：</span><span class=n>b_order0</span><span class=err>、</span><span class=n>b_order1</span><span class=w> </span><span class=n>b_order_item</span><span class=err>：</span><span class=n>b_order_item0</span><span class=err>、</span><span class=n>b_order_item1</span><span class=w>
+</span><span class=w></span><span class=k>select</span><span class=w> </span><span class=o>*</span><span class=w> </span><span class=k>from</span><span class=w> </span><span class=n>b_order</span><span class=w> </span><span class=n>o</span><span class=w> </span><span class=k>join</span><span class=w> </span><span class=n>b_order_item</span><span class=w> </span><span class=n>i</span><span class=w> </span><span class=k>on</span><span class=p>(</span><span class=n>o</span><span class=p>.</span><span class=n>order_id</span><span class=o>=</span><span class=n>i</span><span class=p>.</span><span class=n>order_id</span><span class=p>)</span><span class=w> </span><span class=k>where</span><span class=w> </span><span class=n>o</span><span class=p>.</span><span class=n>order_id</span><span class=w> </span><span class=k>in</span><span class=w> </span><span class=p>(</span><span class=mi>10</span><span class=p>,</span><span class=mi>11</span><span class=p>);</span><span class=w>
+</span></code></pre></td></tr></table></div>
+</div>
+</div><p>如果不配置绑定表关系，采用笛卡尔积关联，会生成4个SQL</p>
+<div class=highlight><div class=chroma>
+<div class=table-container><table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-sql data-lang=sql><span class=k>select</span><span class=w> </span><span class=o>*</span><span class=w> </span><span class=k>from</span><span class=w> </span><span class=n>b_order0</span><span class=w> </span><span class=n>o</span><span class=w> </span><span class=k>join</span><span class=w> </span><span class=n>b_order_item0</span><span class=w> </span><span class=n>i</span><span class=w> </span><span class=k>on</span><span class=p>(</span><span class=n>o</span><span class=p>.</span><span class=n>order_id</span><span class=o>=</span><span class=n>i</span><span class=p>.</span><span class=n>order_id</span><span class=p>)</span><span class=w> </span><span class=k>where</span><span class=w> </span><span class=n>o</span><span class=p>.</span><span class=n>order_id</span><span class=w> </span><span class=k>in</span><span class=w> </span><span class=p>(</span><span class=mi>10</span><span class=p>,</span><span class=mi>11</span><span class=p>);</span><span class=w>
+</span><span class=w></span><span class=k>select</span><span class=w> </span><span class=o>*</span><span class=w> </span><span class=k>from</span><span class=w> </span><span class=n>b_order0</span><span class=w> </span><span class=n>o</span><span class=w> </span><span class=k>join</span><span class=w> </span><span class=n>b_order_item1</span><span class=w> </span><span class=n>i</span><span class=w> </span><span class=k>on</span><span class=p>(</span><span class=n>o</span><span class=p>.</span><span class=n>order_id</span><span class=o>=</span><span class=n>i</span><span class=p>.</span><span class=n>order_id</span><span class=p>)</span><span class=w> </span><span class=k>where</span><span class=w> </span><span class=n>o</span><span class=p>.</span><span class=n>order_id</span><span class=w> </span><span class=k>in</span><span class=w> </span><span class=p>(</span><span class=mi>10</span><span class=p>,</span><span class=mi>11</span><span class=p>);</span><span class=w>
+</span><span class=w></span><span class=k>select</span><span class=w> </span><span class=o>*</span><span class=w> </span><span class=k>from</span><span class=w> </span><span class=n>b_order1</span><span class=w> </span><span class=n>o</span><span class=w> </span><span class=k>join</span><span class=w> </span><span class=n>b_order_item0</span><span class=w> </span><span class=n>i</span><span class=w> </span><span class=k>on</span><span class=p>(</span><span class=n>o</span><span class=p>.</span><span class=n>order_id</span><span class=o>=</span><span class=n>i</span><span class=p>.</span><span class=n>order_id</span><span class=p>)</span><span class=w> </span><span class=k>where</span><span class=w> </span><span class=n>o</span><span class=p>.</span><span class=n>order_id</span><span class=w> </span><span class=k>in</span><span class=w> </span><span class=p>(</span><span class=mi>10</span><span class=p>,</span><span class=mi>11</span><span class=p>);</span><span class=w>
+</span><span class=w></span><span class=k>select</span><span class=w> </span><span class=o>*</span><span class=w> </span><span class=k>from</span><span class=w> </span><span class=n>b_order1</span><span class=w> </span><span class=n>o</span><span class=w> </span><span class=k>join</span><span class=w> </span><span class=n>b_order_item1</span><span class=w> </span><span class=n>i</span><span class=w> </span><span class=k>on</span><span class=p>(</span><span class=n>o</span><span class=p>.</span><span class=n>order_id</span><span class=o>=</span><span class=n>i</span><span class=p>.</span><span class=n>order_id</span><span class=p>)</span><span class=w> </span><span class=k>where</span><span class=w> </span><span class=n>o</span><span class=p>.</span><span class=n>order_id</span><span class=w> </span><span class=k>in</span><span class=w> </span><span class=p>(</span><span class=mi>10</span><span class=p>,</span><span class=mi>11</span><span class=p>);</span><span class=w>
+</span></code></pre></td></tr></table></div>
+</div>
+</div><p>如果配置绑定表关系，生成2个SQL</p>
+<div class=highlight><div class=chroma>
+<div class=table-container><table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-sql data-lang=sql><span class=k>select</span><span class=w> </span><span class=o>*</span><span class=w> </span><span class=k>from</span><span class=w> </span><span class=n>b_order0</span><span class=w> </span><span class=n>o</span><span class=w> </span><span class=k>join</span><span class=w> </span><span class=n>b_order_item0</span><span class=w> </span><span class=n>i</span><span class=w> </span><span class=k>on</span><span class=p>(</span><span class=n>o</span><span class=p>.</span><span class=n>order_id</span><span class=o>=</span><span class=n>i</span><span class=p>.</span><span class=n>order_id</span><span class=p>)</span><span class=w> </span><span class=k>where</span><span class=w> </span><span class=n>o</span><span class=p>.</span><span class=n>order_id</span><span class=w> </span><span class=k>in</span><span class=w> </span><span class=p>(</span><span class=mi>10</span><span class=p>,</span><span class=mi>11</span><span class=p>);</span><span class=w>
+</span><span class=w></span><span class=k>select</span><span class=w> </span><span class=o>*</span><span class=w> </span><span class=k>from</span><span class=w> </span><span class=n>b_order1</span><span class=w> </span><span class=n>o</span><span class=w> </span><span class=k>join</span><span class=w> </span><span class=n>b_order_item1</span><span class=w> </span><span class=n>i</span><span class=w> </span><span class=k>on</span><span class=p>(</span><span class=n>o</span><span class=p>.</span><span class=n>order_id</span><span class=o>=</span><span class=n>i</span><span class=p>.</span><span class=n>order_id</span><span class=p>)</span><span class=w> </span><span class=k>where</span><span class=w> </span><span class=n>o</span><span class=p>.</span><span class=n>order_id</span><span class=w> </span><span class=k>in</span><span class=w> </span><span class=p>(</span><span class=mi>10</span><span class=p>,</span><span class=mi>11</span><span class=p>);</span><span class=w>
+</span></code></pre></td></tr></table></div>
+</div>
+</div></li>
+<li>
+<p>广播表</p>
+<p>在使用中，有些表没必要做分片，例如字典表、省份信息等，因为他们数据量不大，而且这 种表可能需要与海量数据的表进行关联查询。广播表会在不同的数据节点上进行存储，存储 的表结构和数据完全相同。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>分片算法（ShardingAlgorithm）</p>
+<p>由于分片算法和业务实现紧密相关，因此并未提供内置分片算法，而是通过分片策略将各种场景提 炼出来，提供更高层级的抽象，并提供接口让应用开发者自行实现分片算法。目前提供4种分片算法。</p>
+<ul>
+<li>
+<p>精确分片算法PreciseShardingAlgorithm</p>
+<p>用于处理使用单一键作为分片键的=与IN进行分片的场景。</p>
+</li>
+<li>
+<p>范围分片算法RangeShardingAlgorithm</p>
+<p>用于处理使用单一键作为分片键的BETWEEN AND、>、&lt;、>=、&lt;=进行分片的场景。</p>
+</li>
+<li>
+<p>复合分片算法ComplexKeysShardingAlgorithm</p>
+<p>用于处理使用多键作为分片键进行分片的场景，多个分片键的逻辑较复杂，需要应用开发者 自行处理其中的复杂度。</p>
+</li>
+<li>
+<p>Hint分片算法HintShardingAlgorithm</p>
+<p>用于处理使用Hint行分片的场景。对于分片字段非SQL决定，而由其他外置条件决定的场景，可使用SQL Hint灵活的注入分片字段。例：内部系统，按照员工登录主键分库，而数据 库中并无此字段。SQL Hint支持通过Java API和SQL注释两种方式使用。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>分片策略（ShardingStrategy）</p>
+<p>分片策略包含分片键和分片算法，真正可用于分片操作的是分片键 + 分片算法，也就是分片策 略。目前提供5种分片策略。</p>
+<ul>
+<li>
+<p>标准分片策略StandardShardingStrategy</p>
+<p>只支持单分片键，提供对SQL语句中的=, >, &lt;, >=, &lt;=, IN和BETWEEN AND的分片操作支持。 提供PreciseShardingAlgorithm和RangeShardingAlgorithm两个分片算法。 PreciseShardingAlgorithm是必选的，RangeShardingAlgorithm是可选的。但是SQL中使用 了范围操作，如果不配置RangeShardingAlgorithm会采用全库路由扫描，效率低。</p>
+</li>
+<li>
+<p>复合分片策略ComplexShardingStrategy</p>
+<p>支持多分片键。提供对SQL语句中的=, >, &lt;, >=, &lt;=, IN和BETWEEN AND的分片操作支持。由 于多分片键之间的关系复杂，因此并未进行过多的封装，而是直接将分片键值组合以及分片 操作符透传至分片算法，完全由应用开发者实现，提供最大的灵活度。</p>
+</li>
+<li>
+<p>行表达式分片策略InlineShardingStrategy</p>
+<p>只支持单分片键。使用Groovy的表达式，提供对SQL语句中的=和IN的分片操作支持，对于 简单的分片算法，可以通过简单的配置使用，从而避免繁琐的Java代码开发。如: t_user_$-> {u_id % 8} 表示t_user表根据u_id模8，而分成8张表，表名称为t_user_0到t_user_7。</p>
+</li>
+<li>
+<p>Hint分片策略HintShardingStrategy</p>
+<p>通过Hint指定分片值而非从SQL中提取分片值的方式进行分片的策略。</p>
+</li>
+<li>
+<p>不分片策略NoneShardingStrategy</p>
+<p>不分片的策略。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>分片策略配置</p>
+<p>对于分片策略存有数据源分片策略和表分片策略两种维度，两种策略的API完全相同。</p>
+<ul>
+<li>
+<p>数据源分片策略</p>
+<p>用于配置数据被分配的目标数据源。</p>
+</li>
+<li>
+<p>表分片策略</p>
+<p>用于配置数据被分配的目标表，由于表存在与数据源内，所以表分片策略是依赖数据源分片策略结果的。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id=流程剖析><a href=#流程剖析 class=anchor-link><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href=#contents:流程剖析 class=headings>流程剖析</a></h3>
+<p>ShardingSphere 3个产品的数据分片功能主要流程是完全一致的，如下图所示。</p>
+<p><img src=https://gitee.com/chuchin/img/raw/master/20201223-170402-0515.png alt=20201223-170402-0515.png></p>
+<ul>
+<li>
+<p>SQL解析</p>
+<p>SQL解析分为词法解析和语法解析。 先通过词法解析器将SQL拆分为一个个不可再分的单词。再使 用语法解析器对SQL进行理解，并最终提炼出解析上下文。</p>
+<p>Sharding-JDBC采用不同的解析器对SQL进行解析，解析器类型如下：</p>
+<ul>
+<li>MySQL解析器</li>
+<li>Oracle解析器</li>
+<li>SQLServer解析器</li>
+<li>PostgreSQL解析器</li>
+<li>默认SQL解析器</li>
+</ul>
+</li>
+<li>
+<p>查询优化</p>
+<p>负责合并和优化分片条件，如OR等。</p>
+</li>
+<li>
+<p>SQL路由</p>
+<p>根据解析上下文匹配用户配置的分片策略，并生成路由路径。目前支持分片路由和广播路由。</p>
+</li>
+<li>
+<p>SQL改写</p>
+<p>将SQL改写为在真实数据库中可以正确执行的语句。SQL改写分为正确性改写和优化改写。</p>
+</li>
+<li>
+<p>SQL执行</p>
+<p>通过多线程执行器异步执行SQL。</p>
+</li>
+<li>
+<p>结果归并</p>
+<p>将多个执行结果集归并以便于通过统一的JDBC接口输出。结果归并包括流式归并、内存归并和使用装饰者模式的追加归并这几种方式。</p>
+</li>
+</ul>
+<h3 id=sql使用规范><a href=#sql使用规范 class=anchor-link><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href=#contents:sql使用规范 class=headings>SQL使用规范</a></h3>
+<ul>
+<li>
+<p>支持项</p>
+<ul>
+<li>
+<p>路由至单数据节点时，目前MySQL数据库100%全兼容，其他数据库完善中。</p>
+</li>
+<li>
+<p>路由至多数据节点时，全面支持DQL、DML、DDL、DCL、TCL。支持分页、去重、排 序、分组、聚合、关联查询（不支持跨库关联）。以下用最为复杂的查询为例：</p>
+<div class=highlight><div class=chroma>
+<div class=table-container><table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-mysql data-lang=mysql><span class=k>SELECT</span><span class=w> </span><span class=n>select_expr</span><span class=w> </span><span class=p>[,</span><span class=w> </span><span class=n>select_expr</span><span class=w> </span><span class=p>...]</span><span class=w> </span><span class=k>FROM</span><span class=w> </span><span class=n>table_reference</span><span class=w> </span><span class=p>[,</span><span class=w> </span><span class=n>table_reference</span><span class=w> </span><span class=p>...]</span><span class=w> </span><span class=p>[</span><span class=k>WHERE</span><span class=w> </span><span class=n>predicates</span><span class=p>]</span><span class=w>
+</span><span class=w></span><span class=p>[</span><span class=k>GROUP</span><span class=w> </span><span class=k>BY</span><span class=w> </span><span class=err>{</span><span class=n>col_name</span><span class=w> </span><span class=o>|</span><span class=w> </span><span class=n>position</span><span class=err>}</span><span class=w> </span><span class=p>[</span><span class=k>ASC</span><span class=w> </span><span class=o>|</span><span class=w> </span><span class=k>DESC</span><span class=p>],</span><span class=w> </span><span class=p>...]</span><span class=w> </span><span class=p>[</span><span class=k>ORDER</span><span class=w> </span><span class=k>BY</span><span class=w> </span><span class=err>{</span><span class=n>col_name</span><span class=w> </span><span class=o>|</span><span class=w> </span><span class=n>position</span><span class=err>}</span><span class=w> </span><span class=p>[</span><span class=k>ASC</span><span class=w> </span><span class=o>|</span><span class=w> </span><span class=k>DESC</span><span class=p>],</span><span class=w> </span><span class=p>...]</span><span class=w> </span><span class=p>[</span><span class=k>LIMIT</span><span class=w> </span><span class=err>{</span><span class=p>[</span><span class=n>offset</span><span class=p>,]</span><span class=w> </span><span class=n>row_count</span><span class=w> </span><span class=o>|</span><span class=w> </span><span class=n>row_count</span><span class=w> </span><span class=n>OFFSET</span><span class=w> </span><span class=n>offset</span><span class=err>}</span><span class=p>]</span><span class=w>
+</span></code></pre></td></tr></table></div>
+</div>
+</div></li>
+</ul>
+</li>
+<li>
+<p>不支持项（路由至多数据节点）</p>
+<ul>
+<li>不支持CASE WHEN、HAVING、UNION (ALL)</li>
+</ul>
+</li>
+<li>
+<p>支持分页子查询，但其他子查询有限支持，无论嵌套多少层，只能解析至第一个包含数据表 的子查询，一旦在下层嵌套中再次找到包含数据表的子查询将直接抛出解析异常。 例如，以下子查询可以支持：</p>
+<div class=highlight><div class=chroma>
+<div class=table-container><table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-mysql data-lang=mysql><span class=k>SELECT</span><span class=w> </span><span class=nf>COUNT</span><span class=p>(</span><span class=o>*</span><span class=p>)</span><span class=w> </span><span class=k>FROM</span><span class=w> </span><span class=p>(</span><span class=k>SELECT</span><span class=w> </span><span class=o>*</span><span class=w> </span><span class=k>FROM</span><span class=w> </span><span class=n>b_order</span><span class=w> </span><span class=n>o</span><span class=p>)</span><span class=w>
+</span></code></pre></td></tr></table></div>
+</div>
+</div><p>以下子查询不支持：</p>
+<div class=highlight><div class=chroma>
+<div class=table-container><table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-mysql data-lang=mysql><span class=k>SELECT</span><span class=w> </span><span class=nf>COUNT</span><span class=p>(</span><span class=o>*</span><span class=p>)</span><span class=w> </span><span class=k>FROM</span><span class=w> </span><span class=p>(</span><span class=k>SELECT</span><span class=w> </span><span class=o>*</span><span class=w> </span><span class=k>FROM</span><span class=w> </span><span class=n>b_order</span><span class=w> </span><span class=n>o</span><span class=w> </span><span class=k>WHERE</span><span class=w> </span><span class=n>o</span><span class=p>.</span><span class=n>id</span><span class=w> </span><span class=k>IN</span><span class=w> </span><span class=p>(</span><span class=k>SELECT</span><span class=w> </span><span class=n>id</span><span class=w> </span><span class=k>FROM</span><span class=w> </span><span class=n>b_order</span><span class=w> </span><span class=k>WHERE</span><span class=w> </span><span class=n>status</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=o>?</span><span class=p>))</span><span class=w>
+</span></code></pre></td></tr></table></div>
+</div>
+</div><p>简单来说，通过子查询进行非功能需求，在大部分情况下是可以支持的。比如分页、统计总 数等；而通过子查询实现业务查询当前并不能支持。</p>
+</li>
+<li>
+<p>由于归并的限制，子查询中包含聚合函数目前无法支持。</p>
+</li>
+<li>
+<p>不支持包含schema的SQL。因为ShardingSphere的理念是像使用一个数据源一样使用多数据源，因此对SQL的访问都是在同一个逻辑schema之上。</p>
+</li>
+<li>
+<p>当分片键处于运算表达式或函数中的SQL时，将采用全路由的形式获取结果。</p>
+<p>例如下面SQL，create_time为分片键：</p>
+<div class=highlight><div class=chroma>
+<div class=table-container><table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-mysql data-lang=mysql><span class=k>SELECT</span><span class=w> </span><span class=o>*</span><span class=w> </span><span class=k>FROM</span><span class=w> </span><span class=n>b_order</span><span class=w> </span><span class=k>WHERE</span><span class=w> </span><span class=nf>to_date</span><span class=p>(</span><span class=n>create_time</span><span class=p>,</span><span class=w> </span><span class=s1>&#39;yyyy-mm-dd&#39;</span><span class=p>)</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=s1>&#39;202005-05&#39;</span><span class=p>;</span><span class=w>
+</span></code></pre></td></tr></table></div>
+</div>
+</div><p>由于ShardingSphere只能通过SQL字面提取用于分片的值，因此当分片键处于运算表达式 或函数中时，ShardingSphere无法提前获取分片键位于数据库中的值，从而无法计算出真正 的分片值。</p>
+</li>
+</ul>
+<p>不支持的SQL示例：</p>
+<div class=highlight><div class=chroma>
+<div class=table-container><table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-mysql data-lang=mysql><span class=k>INSERT</span><span class=w> </span><span class=k>INTO</span><span class=w> </span><span class=nf>tbl_name</span><span class=w> </span><span class=p>(</span><span class=n>col1</span><span class=p>,</span><span class=w> </span><span class=n>col2</span><span class=p>,</span><span class=w> </span><span class=err>…</span><span class=p>)</span><span class=w> </span><span class=k>VALUES</span><span class=p>(</span><span class=mi>1</span><span class=o>+</span><span class=mi>2</span><span class=p>,</span><span class=w> </span><span class=o>?</span><span class=p>,</span><span class=w> </span><span class=err>…</span><span class=p>)</span><span class=w> </span><span class=o>//</span><span class=n>VALUES语句不支持运算</span><span class=w> </span><span class=err>表达式</span><span class=w> </span><span class=k>INSERT</span><span class=w> </span><span class=k>INTO</span><span class=w> </span><span class=nf>tbl_name</span><span class=w> </span><span class=p>(</span><span class=n>col1</span><span class=p>,</span><span class=w> </span><span class=n>col2</span><span class=p>,</span><span class=w> </span><span class=err>…</span><span class=p>)</span><span class=w> </span><span class=k>SELECT</span><span class=w> </span><span class=n>col1</span><span class=p>,</span><span class=w> </span><span class=n>col2</span><span class=p>,</span><span class=w> </span><span class=err>…</span><span class=w> </span><span class=k>FROM</span><span class=w> </span><span class=n>tbl_name</span><span class=w> </span><span class=k>WHERE</span><span class=w> </span><span class=n>col3</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=o>?</span><span class=w>
+</span><span class=w></span><span class=o>//</span><span class=k>INSERT</span><span class=w> </span><span class=p>..</span><span class=w> </span><span class=k>SELECT</span><span class=w>
+</span><span class=w></span><span class=k>SELECT</span><span class=w> </span><span class=nf>COUNT</span><span class=p>(</span><span class=n>col1</span><span class=p>)</span><span class=w> </span><span class=k>as</span><span class=w> </span><span class=n>count_alias</span><span class=w> </span><span class=k>FROM</span><span class=w> </span><span class=n>tbl_name</span><span class=w> </span><span class=k>GROUP</span><span class=w> </span><span class=k>BY</span><span class=w> </span><span class=n>col1</span><span class=w> </span><span class=k>HAVING</span><span class=w> </span><span class=n>count_alias</span><span class=w> </span><span class=o>&gt;</span><span class=w> </span><span class=o>?</span><span class=w>
+</span><span class=w></span><span class=o>//</span><span class=k>HAVING</span><span class=w> </span><span class=k>SELECT</span><span class=w> </span><span class=o>*</span><span class=w> </span><span class=k>FROM</span><span class=w> </span><span class=n>tbl_name1</span><span class=w> </span><span class=k>UNION</span><span class=w> </span><span class=k>SELECT</span><span class=w> </span><span class=o>*</span><span class=w> </span><span class=k>FROM</span><span class=w> </span><span class=n>tbl_name2</span><span class=w>
+</span><span class=w></span><span class=k>SELECT</span><span class=w> </span><span class=o>*</span><span class=w> </span><span class=k>FROM</span><span class=w> </span><span class=n>ds</span><span class=p>.</span><span class=n>tbl_name1</span><span class=w> </span><span class=o>//</span><span class=err>包含</span><span class=n>schema</span><span class=w> </span><span class=k>SELECT</span><span class=w> </span><span class=nf>SUM</span><span class=p>(</span><span class=k>DISTINCT</span><span class=w> </span><span class=n>col1</span><span class=p>),</span><span class=w> </span><span class=nf>SUM</span><span class=p>(</span><span class=n>col1</span><span class=p>)</span><span class=w> </span><span class=k>FROM</span><span class=w> </span><span class=n>tbl_name</span><span class=w>
+</span><span class=w></span><span class=o>//</span><span class=k>UNION</span><span class=w> </span><span class=k>SELECT</span><span class=w> </span><span class=o>*</span><span class=w> </span><span class=k>FROM</span><span class=w> </span><span class=n>tbl_name1</span><span class=w> </span><span class=k>UNION</span><span class=w> </span><span class=k>ALL</span><span class=w> </span><span class=k>SELECT</span><span class=w> </span><span class=o>*</span><span class=w> </span><span class=k>FROM</span><span class=w> </span><span class=n>tbl_name2</span><span class=w> </span><span class=o>//</span><span class=k>UNION</span><span class=w> </span><span class=k>ALL</span><span class=w> </span><span class=o>//</span><span class=err>同时使用普通聚合函数</span><span class=w>
+</span><span class=w></span><span class=err>和</span><span class=n>DISTINCT</span><span class=w> </span><span class=k>SELECT</span><span class=w> </span><span class=o>*</span><span class=w> </span><span class=k>FROM</span><span class=w> </span><span class=n>tbl_name</span><span class=w> </span><span class=k>WHERE</span><span class=w> </span><span class=nf>to_date</span><span class=p>(</span><span class=n>create_time</span><span class=p>,</span><span class=w> </span><span class=err>‘</span><span class=n>yyyy</span><span class=o>-</span><span class=n>mm</span><span class=o>-</span><span class=n>dd</span><span class=err>’</span><span class=p>)</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=o>?</span><span class=w> </span><span class=o>//</span><span class=err>会导致</span><span class=w> </span><span class=err>全路由</span><span class=w>
+</span></code></pre></td></tr></table></div>
+</div>
+</div><ul>
+<li>
+<p>分页查询</p>
+<p>完全支持MySQL和Oracle的分页查询，SQLServer由于分页查询较为复杂，仅部分支持.</p>
+<ul>
+<li>
+<p>性能瓶颈：</p>
+<p>查询偏移量过大的分页会导致数据库获取数据性能低下，以MySQL为例：</p>
+<div class=highlight><div class=chroma>
+<div class=table-container><table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-mysql data-lang=mysql><span class=k>SELECT</span><span class=w> </span><span class=o>*</span><span class=w> </span><span class=k>FROM</span><span class=w> </span><span class=n>b_order</span><span class=w> </span><span class=k>ORDER</span><span class=w> </span><span class=k>BY</span><span class=w> </span><span class=n>id</span><span class=w> </span><span class=k>LIMIT</span><span class=w> </span><span class=mi>1000000</span><span class=p>,</span><span class=w> </span><span class=mi>10</span><span class=w>
+</span></code></pre></td></tr></table></div>
+</div>
+</div><p>这句SQL会使得MySQL在无法利用索引的情况下跳过1000000条记录后，再获取10条记录， 其性能可想而知。 而在分库分表的情况下（假设分为2个库），为了保证数据的正确性，SQL 会改写为：</p>
+<div class=highlight><div class=chroma>
+<div class=table-container><table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-mysql data-lang=mysql><span class=k>SELECT</span><span class=w> </span><span class=o>*</span><span class=w> </span><span class=k>FROM</span><span class=w> </span><span class=n>b_order</span><span class=w> </span><span class=k>ORDER</span><span class=w> </span><span class=k>BY</span><span class=w> </span><span class=n>id</span><span class=w> </span><span class=k>LIMIT</span><span class=w> </span><span class=mi>0</span><span class=p>,</span><span class=w> </span><span class=mi>1000010</span><span class=w>
+</span></code></pre></td></tr></table></div>
+</div>
+</div><p>即将偏移量前的记录全部取出，并仅获取排序后的最后10条记录。这会在数据库本身就执行 很慢的情况下，进一步加剧性能瓶颈。 因为原SQL仅需要传输10条记录至客户端，而改写之 后的SQL则会传输1,000,010 * 2的记录至客户端。</p>
+</li>
+<li>
+<p>ShardingSphere的优化：</p>
+<p>ShardingSphere进行了以下2个方面的优化</p>
+<ul>
+<li>首先，采用流式处理 + 归并排序的方式来避免内存的过量占用。</li>
+<li>其次，ShardingSphere对仅落至单节点的查询进行进一步优化。</li>
+</ul>
+</li>
+<li>
+<p>分页方案优化：</p>
+<p>由于LIMIT并不能通过索引查询数据，因此如果可以保证ID的连续性，通过ID进行分页是比较 好的解决方案：</p>
+<div class=highlight><div class=chroma>
+<div class=table-container><table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-mysql data-lang=mysql><span class=k>SELECT</span><span class=w> </span><span class=o>*</span><span class=w> </span><span class=k>FROM</span><span class=w> </span><span class=n>b_order</span><span class=w> </span><span class=k>WHERE</span><span class=w> </span><span class=n>id</span><span class=w> </span><span class=o>&gt;</span><span class=w> </span><span class=mi>1000000</span><span class=w> </span><span class=k>AND</span><span class=w> </span><span class=n>id</span><span class=w> </span><span class=o>&lt;=</span><span class=w> </span><span class=mi>1000010</span><span class=w> </span><span class=k>ORDER</span><span class=w> </span><span class=k>BY</span><span class=w> </span><span class=n>id</span><span class=w>
+</span></code></pre></td></tr></table></div>
+</div>
+</div><p>或通过记录上次查询结果的最后一条记录的ID进行下一页的查询：</p>
+<div class=highlight><div class=chroma>
+<div class=table-container><table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-mysql data-lang=mysql><span class=k>SELECT</span><span class=w> </span><span class=o>*</span><span class=w> </span><span class=k>FROM</span><span class=w> </span><span class=n>b_order</span><span class=w> </span><span class=k>WHERE</span><span class=w> </span><span class=n>id</span><span class=w> </span><span class=o>&gt;</span><span class=w> </span><span class=mi>1000000</span><span class=w> </span><span class=k>LIMIT</span><span class=w> </span><span class=mi>10</span><span class=w>
+</span></code></pre></td></tr></table></div>
+</div>
+</div></li>
+</ul>
+</li>
+</ul>
+<h3 id=其他功能><a href=#其他功能 class=anchor-link><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href=#contents:其他功能 class=headings>其他功能</a></h3>
+<p><strong>Inline行表达式</strong></p>
+<p>InlineShardingStrategy：采用Inline行表达式进行分片的配置。</p>
+<p>Inline是可以简化数据节点和分片算法配置信息。主要是解决配置简化、配置一体化。</p>
+<p><strong>语法格式：</strong></p>
+<p>行表达式的使用非常直观，只需要在配置中使用${ expression }或$->{ expression }标识行表达式 即可。例如：</p>
+<div class=highlight><div class=chroma>
+<div class=table-container><table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-mysql data-lang=mysql><span class=err>${</span><span class=n>begin</span><span class=p>..</span><span class=n>end</span><span class=err>}</span><span class=w> </span><span class=err>表示范围区间</span><span class=w> 
+</span><span class=w></span><span class=err>${</span><span class=p>[</span><span class=n>unit1</span><span class=p>,</span><span class=w> </span><span class=n>unit2</span><span class=p>,</span><span class=w> </span><span class=n>unit_x</span><span class=p>]</span><span class=err>}</span><span class=w> </span><span class=err>表示枚举值</span><span class=w>
+</span></code></pre></td></tr></table></div>
+</div>
+</div><p>行表达式中如果出现多个${}或$->{}表达式，整个表达式结果会将每个子表达式结果进行笛卡尔 (积)组合。例如，以下行表达式：</p>
+<div class=highlight><div class=chroma>
+<div class=table-container><table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-mysql data-lang=mysql><span class=err>${</span><span class=p>[</span><span class=s1>&#39;online&#39;</span><span class=p>,</span><span class=w> </span><span class=s1>&#39;offline&#39;</span><span class=p>]</span><span class=err>}</span><span class=n>_table</span><span class=err>${</span><span class=mi>1</span><span class=p>..</span><span class=mi>3</span><span class=err>}</span><span class=w> 
+</span><span class=w></span><span class=err>$</span><span class=o>-&gt;</span><span class=err>{</span><span class=p>[</span><span class=s1>&#39;online&#39;</span><span class=p>,</span><span class=w> </span><span class=s1>&#39;offline&#39;</span><span class=p>]</span><span class=err>}</span><span class=n>_table</span><span class=err>$</span><span class=o>-&gt;</span><span class=err>{</span><span class=mi>1</span><span class=p>..</span><span class=mi>3</span><span class=err>}</span><span class=w>
+</span></code></pre></td></tr></table></div>
+</div>
+</div><p>最终会解析为：</p>
+<div class=highlight><div class=chroma>
+<div class=table-container><table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-mysql data-lang=mysql><span class=n>online_table1</span><span class=p>,</span><span class=w> </span><span class=n>online_table2</span><span class=p>,</span><span class=w> </span><span class=n>online_table3</span><span class=p>,</span><span class=w> 
+</span><span class=w></span><span class=n>offline_table1</span><span class=p>,</span><span class=w> </span><span class=n>offline_table2</span><span class=p>,</span><span class=w> </span><span class=n>offline_table3</span><span class=w>
+</span></code></pre></td></tr></table></div>
+</div>
+</div><p><strong>数据节点配置</strong>：</p>
+<p>对于均匀分布的数据节点，如果数据结构如下：</p>
+<pre><code>db0
+├── b_order2 
+  └── b_order1
+db1
+├── b_order2 
+  └── b_order1
+</code></pre><p>用行表达式可以简化为：</p>
+<pre><code>db${0..1}.b_order${1..2} 
+或者 
+db$-&gt;{0..1}.b_order$-&gt;{1..2}
+</code></pre><p>对于自定义的数据节点，如果数据结构如下：</p>
+<pre><code>db0
+├── b_order0 
+└── b_order1
+db1 
+├── b_order2
+├── b_order3 
+└── b_order4
+</code></pre><p>用行表达式可以简化为：</p>
+<pre><code>db0.b_order${0..1},db1.b_order${2..4}
+</code></pre><p><strong>分片算法配置：</strong></p>
+<p>行表达式内部的表达式本质上是一段Groovy代码，可以根据分片键进行计算的方式，返回相应的 真实数据源或真实表名称。</p>
+<pre><code>ds${id % 10} 或者 ds$-&gt;{id % 10}
+</code></pre><p>结果为：ds0、ds1、ds2... ds9</p>
+<ul>
+<li>
+<p>分布式主键</p>
+<p>ShardingSphere不仅提供了内置的分布式主键生成器，例如UUID、SNOWFLAKE，还抽离出分布 式主键生成器的接口，方便用户自行实现自定义的自增主键生成器。</p>
+<p><strong>内置主键生成器：</strong></p>
+<ul>
+<li>
+<p>UUID</p>
+<p>采用UUID.randomUUID()的方式产生分布式主键。</p>
+</li>
+<li>
+<p>SNOWFLAKE</p>
+<p>在分片规则配置模块可配置每个表的主键生成策略，默认使用雪花算法，生成64bit的长整型数据。</p>
+</li>
+</ul>
+<p><strong>自定义主键生成器</strong></p>
+<ul>
+<li>
+<p>自定义主键类，实现ShardingKeyGenerator接口</p>
+</li>
+<li>
+<p>按SPI规范配置自定义主键类</p>
+<p>在Apache ShardingSphere中，很多功能实现类的加载方式是通过SPI注入的方式完成的。 注意：在resources目录下新建META-INF文件夹，再新建services文件夹，然后新建文件的 名字为org.apache.shardingsphere.spi.keygen.ShardingKeyGenerator，打开文件，复制 自定义主键类全路径到文件中保存。</p>
+</li>
+<li>
+<p>自定义主键类应用配置</p>
+<pre><code>#对应主键字段名 spring.shardingsphere.sharding.tables.t_book.key-generator.column=id #对应主键类getType返回内容 spring.shardingsphere.sharding.tables.t_book.keygenerator.type=LAGOUKEY
+</code></pre></li>
+</ul>
+</li>
+</ul>
+<h2 id=读写分离剖析实战><a href=#读写分离剖析实战 class=anchor-link><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href=#contents:读写分离剖析实战 class=headings>读写分离剖析实战</a></h2>
+<p>读写分离是通过主从的配置方式，将查询请求均匀的分散到多个数据副本，进一步的提升系统的处理能力。</p>
+<p><img src=https://gitee.com/chuchin/img/raw/master/20201224-104831-0848.png alt=20201224-104831-0848.png></p>
+<p>主从架构：读写分离，目的是高可用、读写扩展。主从库内容相同，根据SQL语义进行路由。</p>
+<p>分库分表架构：数据分片，目的读写扩展、存储扩容。库和表内容不同，根据分片配置进行路由。</p>
+<p>将水平分片和读写分离联合使用，能够更加有效的提升系统性能， 下图展现了将分库分表与读写分离一 同使用时，应用程序与数据库集群之间的复杂拓扑关系。</p>
+<p><img src=https://gitee.com/chuchin/img/raw/master/20201224-103833-0818.png alt=20201224-103833-0818.png></p>
+<p>读写分离虽然可以提升系统的吞吐量和可用性，但同时也带来了数据不一致的问题，包括多个主库之间 的数据一致性，以及主库与从库之间的数据一致性的问题。 并且，读写分离也带来了与数据分片同样的问题，它同样会使得应用开发和运维人员对数据库的操作和运维变得更加复杂。</p>
+<p><strong>读写分离应用方案</strong></p>
+<p>在数据量不是很多的情况下，我们可以将数据库进行读写分离，以应对高并发的需求，通过水平扩展从 库，来缓解查询的压力。如下：</p>
+<p><img src=https://gitee.com/chuchin/img/raw/master/20201224-103438-0703.png alt=20201224-103438-0703.png></p>
+<p><strong>分表+读写分离</strong></p>
+<p>在数据量达到500万的时候，这时数据量预估千万级别，我们可以将数据进行分表存储。</p>
+<p><img src=https://gitee.com/chuchin/img/raw/master/20201224-104242-0690.png alt=20201224-104242-0690.png></p>
+<p><strong>分库分表+读写分离</strong></p>
+<p>在数据量继续扩大，这时可以考虑分库分表，将数据存储在不同数据库的不同表中，如下：</p>
+<p><img src=https://gitee.com/chuchin/img/raw/master/20201224-100644-0735.png alt=20201224-100644-0735.png></p>
+<p><strong>透明化读写分离所带来的影响，让使用方尽量像使用一个数据库一样使用主从数据库集群，是 ShardingSphere读写分离模块的主要设计目标。</strong></p>
+<p>主库、从库、主从同步、负载均衡</p>
+<ul>
+<li>核心功能
+<ul>
+<li>提供一主多从的读写分离配置。仅支持单主库，可以支持独立使用，也可以配合分库分表使用</li>
+<li>独立使用读写分离，支持SQL透传。不需要SQL改写流程</li>
+<li>同一线程且同一数据库连接内，能保证数据一致性。如果有写入操作，后续的读操作均从主库读取。</li>
+<li>基于Hint的强制主库路由。可以强制路由走主库查询实时数据，避免主从同步数据延迟。</li>
+</ul>
+</li>
+<li>不支持项
+<ul>
+<li>主库和从库的数据同步</li>
+<li>主库和从库的数据同步延迟</li>
+<li>主库双写或多写</li>
+<li>跨主库和从库之间的事务的数据不一致。建议在主从架构中，事务中的读写均用主库操作。</li>
+</ul>
+</li>
+</ul>
+<h2 id=强制路由剖析实战><a href=#强制路由剖析实战 class=anchor-link><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href=#contents:强制路由剖析实战 class=headings>强制路由剖析实战</a></h2>
+<p>在一些应用场景中，分片条件并不存在于SQL，而存在于外部业务逻辑。因此需要提供一种通过在外部 业务代码中指定路由配置的一种方式，在ShardingSphere中叫做Hint。如果使用Hint指定了强制分片路由，那么SQL将会无视原有的分片逻辑，直接路由至指定的数据节点操作。</p>
+<p>HintManager主要使用ThreadLocal管理分片键信息，进行hint强制路由。在代码中向HintManager添 加的配置信息只能在当前线程内有效。</p>
+<p><strong>Hint使用场景：</strong></p>
+<ul>
+<li>数据分片操作，如果分片键没有在SQL或数据表中，而是在业务逻辑代码中</li>
+<li>读写分离操作，如果强制在主库进行某些数据操作</li>
+</ul>
+<p><strong>Hint使用过程：</strong></p>
+<ul>
+<li>
+<p>编写分库或分表路由策略，实现HintShardingAlgorithm接口</p>
+<div class=highlight><div class=chroma>
+<div class=table-container><table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=kd>public</span> <span class=kd>class</span> <span class=nc>MyHintShardingAlgorithm</span> <span class=kd>implements</span> <span class=n>HintShardingAlgorithm</span><span class=o>&lt;</span><span class=n>Integer</span><span class=o>&gt;</span> <span class=o>{</span> <span class=nd>@Override</span> 
+<span class=kd>public</span> <span class=n>Collection</span><span class=o>&lt;</span><span class=n>String</span><span class=o>&gt;</span> <span class=nf>doSharding</span><span class=o>(</span><span class=n>Collection</span><span class=o>&lt;</span><span class=n>String</span><span class=o>&gt;</span> <span class=n>collection</span><span class=o>,</span>
+	<span class=n>HintShardingValue</span><span class=o>&lt;</span><span class=n>Integer</span><span class=o>&gt;</span> <span class=n>hintShardingValue</span><span class=o>)</span> <span class=o>{</span> 
+	<span class=c1>//添加分库或分表路由逻辑
+</span><span class=c1></span><span class=o>}</span> <span class=o>}</span>
+</code></pre></td></tr></table></div>
+</div>
+</div></li>
+<li>
+<p>在配置文件指定分库或分表策略</p>
+<div class=highlight><div class=chroma>
+<div class=table-container><table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=c>#强制路由库和表 spring.shardingsphere.sharding.tables.b_order.databasestrategy.hint.algorithm-class-name=com.lagou.hint.MyHintShardingAlgorithm spring.shardingsphere.sharding.tables.b_order.table-strategy.hint.algorithmclass-name=com.lagou.hint.MyHintShardingAlgorithm spring.shardingsphere.sharding.tables.b_order.actual-data-nodes=ds$-&gt; {0..1}.b_order$-&gt;{0..1}</span><span class=w>
+</span></code></pre></td></tr></table></div>
+</div>
+</div></li>
+<li>
+<p>在代码执行查询前使用HintManager指定执行策略值</p>
+<div class=highlight><div class=chroma>
+<div class=table-container><table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-mysql data-lang=mysql><span class=o>@</span><span class=n>Test</span><span class=o>//</span><span class=err>路由库和表</span><span class=w> 
+</span><span class=w></span><span class=n>public</span><span class=w> </span><span class=n>void</span><span class=w> </span><span class=nf>test</span><span class=p>()</span><span class=err>{</span><span class=w> 
+</span><span class=w></span><span class=n>HintManager</span><span class=w> </span><span class=n>hintManager</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>HintManager</span><span class=p>.</span><span class=nf>getInstance</span><span class=p>();</span><span class=w> 		    </span><span class=n>hintManager</span><span class=p>.</span><span class=nf>addDatabaseShardingValue</span><span class=p>(</span><span class=s2>&#34;b_order&#34;</span><span class=p>,</span><span class=mi>1</span><span class=p>);</span><span class=w> 	</span><span class=n>hintManager</span><span class=p>.</span><span class=nf>addTableShardingValue</span><span class=p>(</span><span class=s2>&#34;b_order&#34;</span><span class=p>,</span><span class=mi>1</span><span class=p>);</span><span class=w> </span><span class=n>List</span><span class=o>&lt;</span><span class=k>Order</span><span class=o>&gt;</span><span class=w> </span><span class=n>list</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>orderRepository</span><span class=p>.</span><span class=nf>findAll</span><span class=p>();</span><span class=w> </span><span class=n>hintManager</span><span class=p>.</span><span class=nf>close</span><span class=p>();</span><span class=w> </span><span class=n>list</span><span class=p>.</span><span class=nf>forEach</span><span class=p>(</span><span class=n>o</span><span class=w> </span><span class=o>-&gt;</span><span class=w> </span><span class=err>{</span><span class=w> </span><span class=n>System</span><span class=p>.</span><span class=k>out</span><span class=p>.</span><span class=nf>println</span><span class=p>(</span><span class=n>o</span><span class=p>.</span><span class=nf>getOrderId</span><span class=p>()</span><span class=o>+</span><span class=s2>&#34; &#34;</span><span class=o>+</span><span class=n>o</span><span class=p>.</span><span class=nf>getUserId</span><span class=p>()</span><span class=o>+</span><span class=s2>&#34;&#34;</span><span class=o>+</span><span class=n>o</span><span class=p>.</span><span class=nf>getOrderPrice</span><span class=p>());</span><span class=w> </span><span class=err>}</span><span class=p>);</span><span class=w>
+</span><span class=w></span><span class=err>}</span><span class=w>
+</span></code></pre></td></tr></table></div>
+</div>
+</div><p>在读写分离结构中，为了避免主从同步数据延迟及时获取刚添加或更新的数据，可以采用强制路由走主库查询实时数据，使用hintManager.setMasterRouteOnly设置主库路由即可。</p>
+</li>
+</ul>
+<h2 id=数据脱敏剖析实战><a href=#数据脱敏剖析实战 class=anchor-link><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href=#contents:数据脱敏剖析实战 class=headings>数据脱敏剖析实战</a></h2>
+<p>数据脱敏是指对某些敏感信息通过脱敏规则进行数据的变形，实现敏感隐私数据的可靠保护。涉及客户安全数据或者一些商业性敏感数据，如身份证号、手机号、卡号、客户号等个人信息按照规定，都需要 进行数据脱敏。</p>
+<p>数据脱敏模块属于ShardingSphere分布式治理这一核心功能下的子功能模块。</p>
+<ul>
+<li>在更新操作时，它通过对用户输入的SQL进行解析，并依据用户提供的脱敏配置对SQL进行改写， 从而实现对原文数据进行加密，并将密文数据存储到底层数据库。</li>
+<li>在查询数据时，它又从数据库中取出密文数据，并对其解密，最终将解密后的原始数据返回给用户。</li>
+</ul>
+<p><strong>Apache ShardingSphere自动化&透明化了数据脱敏过程，让用户无需关注数据脱敏的实现细节，像 使用普通数据那样使用脱敏数据。</strong></p>
+<h3 id=整体架构><a href=#整体架构 class=anchor-link><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href=#contents:整体架构 class=headings>整体架构</a></h3>
+<p>ShardingSphere提供的Encrypt-JDBC和业务代码部署在一起。业务方需面向Encrypt-JDBC进行JDBC编程。</p>
+<p><img src=https://gitee.com/chuchin/img/raw/master/20201224-104956-0772.png alt=20201224-104956-0772.png></p>
+<p>Encrypt-JDBC将用户发起的SQL进行拦截，并通过SQL语法解析器进行解析、理解SQL行为，再依据用 户传入的脱敏规则，找出需要脱敏的字段和所使用的加解密器对目标字段进行加解密处理后，再与底层 数据库进行交互。</p>
+<h3 id=脱敏规则><a href=#脱敏规则 class=anchor-link><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href=#contents:脱敏规则 class=headings>脱敏规则</a></h3>
+<p>脱敏配置主要分为四部分：数据源配置，加密器配置，脱敏表配置以及查询属性配置，其详情如下图所示：</p>
+<p><img src=https://gitee.com/chuchin/img/raw/master/20201224-101458-0845.png alt=20201224-101458-0845.png></p>
+<ul>
+<li>数据源配置：指DataSource的配置信息</li>
+<li>加密器配置：指使用什么加密策略进行加解密。目前ShardingSphere内置了两种加解密策略： AES/MD5</li>
+<li>脱敏表配置：指定哪个列用于存储密文数据（cipherColumn）、哪个列用于存储明文数据 （plainColumn）以及用户想使用哪个列进行SQL编写（logicColumn）</li>
+<li>查询属性的配置：当底层数据库表里同时存储了明文数据、密文数据后，该属性开关用于决定是直 接查询数据库表里的明文数据进行返回，还是查询密文数据通过Encrypt-JDBC解密后返回。</li>
+</ul>
+<h3 id=脱敏处理流程><a href=#脱敏处理流程 class=anchor-link><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href=#contents:脱敏处理流程 class=headings>脱敏处理流程</a></h3>
+<p>下图可以看出ShardingSphere将逻辑列与明文列和密文列进行了列名映射。</p>
+<p><img src=https://gitee.com/chuchin/img/raw/master/20201224-114600-0608.png alt=20201224-114600-0608.png></p>
+<p>下方图片展示了使用Encrypt-JDBC进行增删改查时，其中的处理流程和转换逻辑，如下图所示。</p>
+<p><img src=https://gitee.com/chuchin/img/raw/master/20201224-112901-0278.png alt=20201224-112901-0278.png></p>
+<h3 id=加密策略解析><a href=#加密策略解析 class=anchor-link><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href=#contents:加密策略解析 class=headings>加密策略解析</a></h3>
+<p>ShardingSphere提供了两种加密策略用于数据脱敏，该两种策略分别对应ShardingSphere的两种加解密的接口，即Encryptor和QueryAssistedEncryptor。</p>
+<ul>
+<li>
+<p>Encryptor</p>
+<p>该解决方案通过提供encrypt(), decrypt()两种方法对需要脱敏的数据进行加解密。在用户进行 INSERT, DELETE, UPDATE时，ShardingSphere会按照用户配置，对SQL进行解析、改写、路由， 并会调用encrypt()将数据加密后存储到数据库, 而在SELECT时，则调用decrypt()方法将从数据库 中取出的脱敏数据进行逆向解密，最终将原始数据返回给用户。
+当前，ShardingSphere针对这种类型的脱敏解决方案提供了两种具体实现类，分别是MD5(不可逆)，AES(可逆)，用户只需配置即可使用这两种内置的方案。</p>
+</li>
+<li>
+<p>QueryAssistedEncryptor</p>
+<p>相比较于第一种脱敏方案，该方案更为安全和复杂。它的理念是：即使是相同的数据，如两个用户的密码相同，它们在数据库里存储的脱敏数据也应当是不一样的。这种理念更有利于保护用户信 息，防止撞库成功。
+它提供三种函数进行实现，分别是encrypt(), decrypt(), queryAssistedEncrypt()。在encrypt()阶 段，用户通过设置某个变动种子，例如时间戳。针对原始数据+变动种子组合的内容进行加密，就 能保证即使原始数据相同，也因为有变动种子的存在，致使加密后的脱敏数据是不一样的。在 decrypt()可依据之前规定的加密算法，利用种子数据进行解密。queryAssistedEncrypt()用于生成 辅助查询列，用于原始数据的查询过程。 当前，ShardingSphere针对这种类型的脱敏解决方案并没有提供具体实现类，却将该理念抽象成接口，提供给用户自行实现。ShardingSphere将调用用户提供的该方案的具体实现类进行数据脱敏。</p>
+</li>
+</ul>
+<h2 id=分布式事务剖析实战><a href=#分布式事务剖析实战 class=anchor-link><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href=#contents:分布式事务剖析实战 class=headings>分布式事务剖析实战</a></h2>
+<h3 id=分布式事务理论><a href=#分布式事务理论 class=anchor-link><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href=#contents:分布式事务理论 class=headings>分布式事务理论</a></h3>
+<ul>
+<li>
+<p>CAP（强一致性）</p>
+<p>CAP 定理，又被叫作布鲁尔定理。对于共享数据系统，最多只能同时拥有CAP其中的两个，任意两个都有其适应的场景。</p>
+<p><img src=https://gitee.com/chuchin/img/raw/master/20201224-114904-0483.png alt=20201224-114904-0483.png></p>
+</li>
+<li>
+<p>BASE（最终一致性）</p>
+<p>BASE 是指基本可用（Basically Available）、软状态（ Soft State）、最终一致性（ Eventual Consistency）。它的核心思想是即使无法做到强一致性（CAP 就是强一致性），但应用可以采用 适合的方式达到最终一致性。</p>
+<ul>
+<li>BA指的是基本业务可用性，支持分区失败；</li>
+<li>S表示柔性状态，也就是允许短时间内不同步；</li>
+<li>E表示最终一致性，数据最终是一致的，但是实时是不一致的。</li>
+</ul>
+<p>原子性和持久性必须从根本上保障，为了可用性、性能和服务降级的需要，只有降低一致性和隔离性的要求。BASE 解决了 CAP 理论中没有考虑到的网络延迟问题，在BASE中用软状态和最终一 致，保证了延迟后的一致性。</p>
+</li>
+</ul>
+<h3 id=分布式事务模式><a href=#分布式事务模式 class=anchor-link><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href=#contents:分布式事务模式 class=headings>分布式事务模式</a></h3>
+<p>了解了分布式事务中的强一致性和最终一致性理论，下面介绍几种常见的分布式事务的解决方案。</p>
+<h4 id=2pc模式强一致性><a href=#2pc模式强一致性 class=anchor-link><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href=#contents:2pc模式强一致性 class=headings>2PC模式（强一致性）</a></h4>
+<p>2PC是Two-Phase Commit缩写，即两阶段提交，就是将事务的提交过程分为两个阶段来进行处理。事务的发起者称协调者，事务的执行者称参与者。协调者统一协调参与者执行。</p>
+<ul>
+<li>
+<p>阶段 1：准备阶段</p>
+<p>协调者向所有参与者发送事务内容，询问是否可以提交事务，并等待所有参与者答复。 各参与者执行事务操作，但不提交事务，将 undo 和 redo 信息记入事务日志中。 如参与者执行成功，给协调者反馈 yes；如执行失败，给协调者反馈 no。</p>
+</li>
+<li>
+<p>阶段 2：提交阶段</p>
+<p>如果协调者收到了参与者的失败消息或者超时，直接给每个参与者发送回滚(rollback)消息； 否则，发送提交(commit)消息。</p>
+</li>
+</ul>
+<p>2PC 方案实现起来简单，实际项目中使用比较少，主要因为以下问题：</p>
+<ul>
+<li>性能问题：所有参与者在事务提交阶段处于同步阻塞状态，占用系统资源，容易导致性能瓶颈。</li>
+<li>可靠性问题：如果协调者存在单点故障问题，如果协调者出现故障，参与者将一直处于锁定状态。</li>
+<li>数据一致性问题：在阶段 2 中，如果发生局部网络问题，一部分事务参与者收到了提交消息，另一部分事务参与者没收到提交消息，那么就导致了节点之间数据的不一致。</li>
+</ul>
+<h4 id=3pc模式强一致性><a href=#3pc模式强一致性 class=anchor-link><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href=#contents:3pc模式强一致性 class=headings>3PC模式（强一致性）</a></h4>
+<p>3PC 三阶段提交，是两阶段提交的改进版本，与两阶段提交不同的是，引入超时机制。同时在协 调者和参与者中都引入超时机制。三阶段提交将两阶段的准备阶段拆分为 2 个阶段，插入了一个 preCommit 阶段，解决了原先在两阶段提交中，参与者在准备之后，由于协调者或参与者发生崩 溃或错误，而导致参与者无法知晓处于长时间等待的问题。如果在指定的时间内协调者没有收到参 与者的消息则默认失败。</p>
+<ul>
+<li>
+<p>阶段1：canCommit</p>
+<p>协调者向参与者发送 commit 请求，参与者如果可以提交就返回 yes 响应，否则返回 no 响应。</p>
+</li>
+<li>
+<p>阶段2：preCommit</p>
+<p>协调者根据阶段 1 canCommit 参与者的反应情况执行预提交事务或中断事务操作。</p>
+<ul>
+<li>参与者均反馈 yes：协调者向所有参与者发出 preCommit 请求，参与者收到 preCommit 请求后，执行事务操作，但不提交；将 undo 和 redo 信息记入事务日志 中；各参与者向协调者反馈 ack 响应或 no 响应，并等待最终指令。</li>
+<li>任何一个参与者反馈 no或等待超时：协调者向所有参与者发出 abort 请求，无论收到 协调者发出的 abort 请求，或者在等待协调者请求过程中出现超时，参与者均会中断事务。</li>
+</ul>
+</li>
+<li>
+<p>阶段3：do Commit</p>
+<p>该阶段进行真正的事务提交，根据阶段 2 preCommit反馈的结果完成事务提交或中断操作。</p>
+</li>
+</ul>
+<h4 id=xa强一致性><a href=#xa强一致性 class=anchor-link><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href=#contents:xa强一致性 class=headings>XA（强一致性）</a></h4>
+<p>XA是由X/Open组织提出的分布式事务的规范，是基于两阶段提交协议。 XA规范主要定义了全局事务管理器（TM）和局部资源管理器（RM）之间的接口。目前主流的关系型数据库产品都是实现 了XA接口。</p>
+<p><img src=https://gitee.com/chuchin/img/raw/master/20201224-112415-0983.png alt=20201224-112415-0983.png></p>
+<p>XA之所以需要引入事务管理器，是因为在分布式系统中，从理论上讲两台机器理论上无法达到一致的状态，需要引入一个单点进行协调。由全局事务管理器管理和协调的事务，可以跨越多个资源 （数据库）和进程。</p>
+<p>事务管理器用来保证所有的事务参与者都完成了准备工作(第一阶段)。如果事务管理器收到所有参与者都准备好的消息，就会通知所有的事务都可以提交了（第二阶段）。MySQL 在这个XA事务中 扮演的是参与者的角色，而不是事务管理器。</p>
+<h4 id=tcc模式最终一致性><a href=#tcc模式最终一致性 class=anchor-link><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href=#contents:tcc模式最终一致性 class=headings>TCC模式（最终一致性）</a></h4>
+<p>TCC（Try-Confirm-Cancel）的概念，最早是由 Pat Helland 于 2007 年发表的一篇名为《Life beyond Distributed Transactions:an Apostate’s Opinion》的论文提出。TCC 是服务化的两阶段 编程模型，其 Try、Confirm、Cancel 3 个方法均由业务编码实现：</p>
+<ul>
+<li>Try 操作作为一阶段，负责资源的检查和预留；</li>
+<li>Confirm 操作作为二阶段提交操作，执行真正的业务；</li>
+<li>Cancel 是预留资源的取消；</li>
+</ul>
+<p>TCC事务模式相对于 XA 等传统模型如下图所示：</p>
+<p><img src=https://gitee.com/chuchin/img/raw/master/20201224-111118-0407.png alt=20201224-111118-0407.png></p>
+<p>TCC 模式相比于 XA，解决了如下几个缺点：</p>
+<ul>
+<li>解决了协调者单点，由主业务方发起并完成这个业务活动。业务活动管理器可以变成多点， 引入集群。</li>
+<li>同步阻塞：引入超时机制，超时后进行补偿，并且不会锁定整个资源，将资源转换为业务逻 辑形式，粒度变小。</li>
+<li>数据一致性，有了补偿机制之后，由业务活动管理器控制一致性。</li>
+</ul>
+<h4 id=消息队列模式最终一致性><a href=#消息队列模式最终一致性 class=anchor-link><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href=#contents:消息队列模式最终一致性 class=headings>消息队列模式（最终一致性）</a></h4>
+<p>消息队列的方案最初是由 eBay 提出，基于TCC模式，消息中间件可以基于 Kafka、RocketMQ 等消息队列。此方案的核心是将分布式事务拆分成本地事务进行处理，将需要分布式处理的任务通过 消息日志的方式来异步执行。消息日志可以存储到本地文本、数据库或MQ中间件，再通过业务规 则人工发起重试。</p>
+<p>下面描述下事务的处理流程：</p>
+<p><img src=https://gitee.com/chuchin/img/raw/master/20201224-114919-0414.png alt=20201224-114919-0414.png></p>
+<ul>
+<li>
+<p>步骤1：事务主动方处理本地事务。</p>
+<p>事务主动方在本地事务中处理业务更新操作和MQ写消息操作。</p>
+</li>
+<li>
+<p>步骤 2：事务主动方通过消息中间件，通知事务被动方处理事务通知事务待消息。</p>
+<p>事务主动方主动写消息到MQ，事务消费方接收并处理MQ中的消息。</p>
+</li>
+<li>
+<p>步骤 3：事务被动方通过MQ中间件，通知事务主动方事务已处理的消息，事务主动方根据反馈结果提交或回滚事务。</p>
+</li>
+</ul>
+<p>为了数据的一致性，当流程中遇到错误需要重试，容错处理规则如下：</p>
+<ul>
+<li>当步骤 1 处理出错，事务回滚，相当于什么都没发生。</li>
+<li>当步骤 2 处理出错，由于未处理的事务消息还是保存在事务发送方，可以重试或撤销本地业务操作。</li>
+<li>如果事务被动方消费消息异常，需要不断重试，业务处理逻辑需要保证幂等。</li>
+<li>如果是事务被动方业务上的处理失败，可以通过MQ通知事务主动方进行补偿或者事务回滚。</li>
+<li>如果多个事务被动方已经消费消息，事务主动方需要回滚事务时需要通知事务被动方回滚。</li>
+</ul>
+<h4 id=saga模式最终一致性><a href=#saga模式最终一致性 class=anchor-link><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href=#contents:saga模式最终一致性 class=headings>Saga模式（最终一致性）</a></h4>
+<p>Saga这个概念源于 1987 年普林斯顿大学的 Hecto 和 Kenneth 发表的一篇数据库论文Sagas ，一 个Saga事务是一个有多个短时事务组成的长时的事务。 在分布式事务场景下，我们把一个Saga分 布式事务看做是一个由多个本地事务组成的事务，每个本地事务都有一个与之对应的补偿事务。在 Saga事务的执行过程中，如果某一步执行出现异常，Saga事务会被终止，同时会调用对应的补偿事务完成相关的恢复操作，这样保证Saga相关的本地事务要么都是执行成功，要么通过补偿恢复成为事务执行之前的状态。（自动反向补偿机制）。</p>
+<p>Saga 事务基本协议如下：</p>
+<ul>
+<li>每个 Saga 事务由一系列幂等的有序子事务(sub-transaction) Ti 组成。</li>
+<li>每个 Ti 都有对应的幂等补偿动作 Ci，补偿动作用于撤销 Ti 造成的结果。</li>
+<li>Saga是一种补偿模式，它定义了两种补偿策略：
+<ul>
+<li>向前恢复（forward recovery）：对应于上面第一种执行顺序，发生失败进行重试，适用于 必须要成功的场景。</li>
+<li>向后恢复（backward recovery）：对应于上面提到的第二种执行顺序，发生错误后撤销掉之前所 有成功的子事务，使得整个 Saga 的执行结果撤销。</li>
+</ul>
+</li>
+</ul>
+<p><img src=https://gitee.com/chuchin/img/raw/master/20201224-111423-0250.png alt=20201224-111423-0250.png></p>
+<p>Saga 的执行顺序有两种，如上图：</p>
+<ul>
+<li>
+<p>事务正常执行完成：T1, T2, T3, ..., Tn，例如：减库存(T1)，创建订单(T2)，支付(T3)，依次有序完 成整个事务。</p>
+</li>
+<li>
+<p>事务回滚：T1, T2, ..., Tj, Cj,..., C2, C1，其中 0 &lt; j &lt; n，例如：减库存(T1)，创建订单(T2)，支付 (T3)，支付失败，支付回滚(C3)，订单回滚(C2)，恢复库存(C1)。</p>
+</li>
+</ul>
+<h4 id=seata框架><a href=#seata框架 class=anchor-link><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href=#contents:seata框架 class=headings>Seata框架</a></h4>
+<p>Fescar开源项目，最初愿景是能像本地事务一样控制分布式事务，解决分布式环境下的难题。</p>
+<p>Seata（Simple Extensible Autonomous Transaction Architecture）是一套一站式分布式事务解 决方案，是阿里集团和蚂蚁金服联合打造的分布式事务框架。Seata目前的事务模式有AT、TCC、 Saga和XA，默认是AT模式，AT本质上是2PC协议的一种实现。</p>
+<p>Seata AT事务模型包含TM(事务管理器)，RM(资源管理器)，TC(事务协调器)。其中TC是一个独立 的服务需要单独部署，TM和RM以jar包的方式同业务应用部署在一起，它们同TC建立长连接，在 整个事务生命周期内，保持RPC通信。</p>
+<ul>
+<li>全局事务的发起方作为TM，全局事务的参与者作为RM</li>
+<li>TM负责全局事务的begin和commit/rollback</li>
+<li>RM负责分支事务的执行结果上报，并且通过TC的协调进行commit/rollback。</li>
+</ul>
+<p><img src=https://gitee.com/chuchin/img/raw/master/20201224-112925-0885.png alt=20201224-112925-0885.png></p>
+<p>在 Seata 中，AT时分为两个阶段的，第一阶段，就是各个阶段本地提交操作；第二阶段会根据第 一阶段的情况决定是进行全局提交还是全局回滚操作。具体的执行流程如下：</p>
+<ul>
+<li>TM 开启分布式事务，负责全局事务的begin和commit/rollback（TM 向 TC 注册全局事务记 录）；</li>
+<li>RM 作为参与者，负责分支事务的执行结果上报，并且通过TC的协调进行 commit/rollback（RM 向 TC 汇报资源准备状态 ）；</li>
+<li>根据TC 汇总事务信息，由TM发起事务提交或回滚操作；</li>
+<li>TC 通知所有 RM 提交/回滚资源，事务二阶段结束；</li>
+</ul>
+<h3 id=sharding-jdbc整合xa原理><a href=#sharding-jdbc整合xa原理 class=anchor-link><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href=#contents:sharding-jdbc整合xa原理 class=headings>Sharding-JDBC整合XA原理</a></h3>
+<p>Java通过定义JTA接口实现了XA的模型，JTA接口里的ResourceManager需要数据库厂商提供XA的驱动实现，而TransactionManager则需要事务管理器的厂商实现，传统的事务管理器需要同应用服务器绑 定，因此使用的成本很高。 而嵌入式的事务管器可以以jar包的形式提供服务，同ShardingSphere集成 后，可保证分片后跨库事务强一致性。</p>
+<p>ShardingSphere支持以下功能：</p>
+<ul>
+<li>支持数据分片后的跨库XA事务</li>
+<li>两阶段提交保证操作的原子性和数据的强一致性</li>
+<li>服务宕机重启后，提交/回滚中的事务可自动恢复</li>
+<li>SPI机制整合主流的XA事务管理器，默认Atomikos</li>
+<li>同时支持XA和非XA的连接池</li>
+<li>提供spring-boot和namespace的接入端</li>
+</ul>
+<p>ShardingSphere整合XA事务时，分离了XA事务管理和连接池管理，这样接入XA时，可以做到对业务的零侵入。</p>
+<p><img src=https://gitee.com/chuchin/img/raw/master/20201224-110928-0259.png alt=20201224-110928-0259.png></p>
+<ol>
+<li>
+<p>Begin（开启XA全局事务）</p>
+<p>XAShardingTransactionManager会调用具体的XA事务管理器开启XA的全局事务。</p>
+</li>
+<li>
+<p>执行物理SQL</p>
+<p>ShardingSphere进行解析/优化/路由后会生成SQL操作，执行引擎为每个物理SQL创建连接的同 时，物理连接所对应的XAResource也会被注册到当前XA事务中。事务管理器会在此阶段发送 XAResource.start命令给数据库，数据库在收到XAResource.end命令之前的所有SQL操作，会被 标记为XA事务。</p>
+<p>例如:</p>
+<pre><code>XAResource1.start ## Enlist阶段执行
+statement.execute(&quot;sql1&quot;); ## 模拟执行一个分片SQL1
+statement.execute(&quot;sql2&quot;); ## 模拟执行一个分片SQL2
+XAResource1.end  ## 提交阶段执行
+</code></pre><p>这里sql1和sql2将会被标记为XA事务。</p>
+</li>
+<li>
+<p>Commit/rollback（提交XA事务）</p>
+<p>XAShardingTransactionManager收到接入端的提交命令后，会委托实际的XA事务管理进行提交 动作，这时事务管理器会收集当前线程里所有注册的XAResource，首先发送XAResource.end指 令，用以标记此XA事务的边界。 接着会依次发送prepare指令，收集所有参与XAResource投票， 如果所有XAResource的反馈结果都是OK，则会再次调用commit指令进行最终提交，如果有一个 XAResource的反馈结果为No，则会调用rollback指令进行回滚。 在事务管理器发出提交指令后， 任何XAResource产生的异常都会通过recovery日志进行重试，来保证提交阶段的操作原子性，和 数据强一致性。 例如:</p>
+<pre><code>XAResource1.prepare ## ack: yes 
+XAResource2.prepare ## ack: yes
+XAResource1.commit 
+XAResource2.commit
+
+XAResource1.prepare ## ack: yes
+XAResource2.prepare ## ack: no
+XAResource1.rollback
+XAResource2.rollback
+</code></pre></li>
+</ol>
+<h3 id=sharding-jdbc整合saga原理><a href=#sharding-jdbc整合saga原理 class=anchor-link><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href=#contents:sharding-jdbc整合saga原理 class=headings>Sharding-JDBC整合Saga原理</a></h3>
+<p>ShardingSphere的柔性事务已通过第三方servicecomb-saga组件实现的，通过SPI机制注入使用。 ShardingSphere是基于反向SQL技术实现的反向补偿操作，它将对数据库进行更新操作的SQL自动生成 反向SQL，并交由Saga-actuator引擎执行。使用方则无需再关注如何实现补偿方法，将柔性事务管理器 的应用范畴成功的定位回了事务的本源——数据库层面。ShardingSphere支持以下功能：</p>
+<ul>
+<li>完全支持跨库事务</li>
+<li>支持失败SQL重试及最大努力送达</li>
+<li>支持反向SQL、自动生成更新快照以及自动补偿</li>
+<li>默认使用关系型数据库进行快照及事务日志的持久化，支持使用SPI的方式加载其他类型的持久化</li>
+</ul>
+<p>Saga柔性事务的实现类为SagaShardingTransactionMananger, ShardingSphere通过Hook的方式拦 截逻辑SQL的解析和路由结果，这样，在分片物理SQL执行前，可以生成逆向SQL，在事务提交阶段再 把SQL调用链交给Saga引擎处理。</p>
+<p><img src=https://gitee.com/chuchin/img/raw/master/20201224-132939-0389.png alt=20201224-132939-0389.png></p>
+<ol>
+<li>
+<p>Init（Saga引擎初始化）</p>
+<p>包含Saga柔性事务的应用启动时，saga-actuator引擎会根据saga.properties的配置进行初始化的流程。</p>
+</li>
+<li>
+<p>Begin（开启Saga全局事务）</p>
+<p>每次开启Saga全局事务时，将会生成本次全局事务的上下文（SagaTransactionContext），事务 上下文记录了所有子事务的正向SQL和逆向SQL，作为生成事务调用链的元数据使用。</p>
+</li>
+<li>
+<p>执行物理SQL</p>
+<p>在物理SQL执行前，ShardingSphere根据SQL的类型生成逆向SQL，这里是通过Hook的方式拦截 Parser的解析结果进行实现。</p>
+</li>
+<li>
+<p>Commit/rollback（提交Saga事务）</p>
+<p>提交阶段会生成Saga执行引擎所需的调用链路图，commit操作产生ForwardRecovery（正向SQL 补偿）任务，rollback操作产生BackwardRecovery任务（逆向SQL补偿）。</p>
+</li>
+</ol>
+<h3 id=sharding-jdbc整合seata原理><a href=#sharding-jdbc整合seata原理 class=anchor-link><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href=#contents:sharding-jdbc整合seata原理 class=headings>Sharding-JDBC整合Seata原理</a></h3>
+<p>分布式事务的实现目前主要分为两阶段的XA强事务和BASE柔性事务。</p>
+<p><img src=https://gitee.com/chuchin/img/raw/master/20201224-131841-0805.png alt=20201224-131841-0805.png></p>
+<p>Seata AT事务作为BASE柔性事务的一种实现，可以无缝接入到ShardingSphere生态中。在整合Seata AT事务时，需要把TM，RM，TC的模型融入到ShardingSphere 分布式事务的SPI的生态中。在数据库 资源上，Seata通过对接DataSource接口，让JDBC操作可以同TC进行RPC通信。同样， ShardingSphere也是面向DataSource接口对用户配置的物理DataSource进行了聚合，因此把物理 DataSource二次包装为Seata 的DataSource后，就可以把Seata AT事务融入到ShardingSphere的分片中。</p>
+<p><img src=https://gitee.com/chuchin/img/raw/master/20201224-132939-0389.png alt=20201224-132939-0389.png></p>
+<ol>
+<li>
+<p>Init（Seata引擎初始化）</p>
+<p>包含Seata柔性事务的应用启动时，用户配置的数据源会按seata.conf的配置，适配成Seata事务所 需的DataSourceProxy，并且注册到RM中。</p>
+</li>
+<li>
+<p>Begin（开启Seata全局事务）</p>
+<p>TM控制全局事务的边界，TM通过向TC发送Begin指令，获取全局事务ID，所有分支事务通过此全 局事务ID，参与到全局事务中；全局事务ID的上下文存放在当前线程变量中。</p>
+</li>
+<li>
+<p>执行分片物理SQL</p>
+<p>处于Seata全局事务中的分片SQL通过RM生成undo快照，并且发送participate指令到TC，加入到 全局事务中。ShardingSphere的分片物理SQL是按多线程方式执行，因此整合Seata AT事务时， 需要在主线程和子线程间进行全局事务ID的上下文传递，这同服务间的上下文传递思路完全相 同。</p>
+</li>
+<li>
+<p>Commit/rollback（提交Seata事务）</p>
+<p>提交Seata事务时，TM会向TC发送全局事务的commit和rollback指令，TC根据全局事务ID协调所有分支事务进行commit和rollback。</p>
+</li>
+</ol>
+<h2 id=sharding-jdbc分布式事务实战><a href=#sharding-jdbc分布式事务实战 class=anchor-link><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href=#contents:sharding-jdbc分布式事务实战 class=headings>Sharding-JDBC分布式事务实战</a></h2>
+<p>ShardingSphere整合了XA、Saga和Seata模式后，为分布式事务控制提供了极大的便利，我们可以在应用程序编程时，采用以下统一模式进行使用。</p>
+<ul>
+<li>
+<p>引入Maven依赖</p>
+<div class=highlight><div class=chroma>
+<div class=table-container><table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-xml data-lang=xml><span class=nt>&lt;dependency&gt;</span>
+            <span class=nt>&lt;groupId&gt;</span>org.apache.shardingsphere<span class=nt>&lt;/groupId&gt;</span>
+            <span class=nt>&lt;artifactId&gt;</span>sharding-transaction-xa-core<span class=nt>&lt;/artifactId&gt;</span>
+            <span class=nt>&lt;version&gt;</span>${shardingsphere.version}<span class=nt>&lt;/version&gt;</span>
+        <span class=nt>&lt;/dependency&gt;</span>
+
+        <span class=nt>&lt;dependency&gt;</span>
+            <span class=nt>&lt;groupId&gt;</span>io.shardingsphere<span class=nt>&lt;/groupId&gt;</span>
+            <span class=nt>&lt;artifactId&gt;</span>sharding-transaction-base-saga<span class=nt>&lt;/artifactId&gt;</span>
+            <span class=nt>&lt;version&gt;</span>${shardingsphere.version}<span class=nt>&lt;/version&gt;</span>
+        <span class=nt>&lt;/dependency&gt;</span>
+
+        <span class=nt>&lt;dependency&gt;</span>
+            <span class=nt>&lt;groupId&gt;</span>org.apache.shardingsphere<span class=nt>&lt;/groupId&gt;</span>
+            <span class=nt>&lt;artifactId&gt;</span>sharding-jdbc-spring-boot-starter<span class=nt>&lt;/artifactId&gt;</span>
+<span class=nt>&lt;/dependency&gt;</span>
+</code></pre></td></tr></table></div>
+</div>
+</div></li>
+<li>
+<p>JAVA编码方式设置事务类型</p>
+<div class=highlight><div class=chroma>
+<div class=table-container><table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=n>TransactionTypeHolder</span><span class=o>.</span><span class=na>set</span><span class=o>(</span><span class=n>TransactionType</span><span class=o>.</span><span class=na>XA</span><span class=o>);</span> <span class=n>TransactionTypeHolder</span><span class=o>.</span><span class=na>set</span><span class=o>(</span><span class=n>TransactionType</span><span class=o>.</span><span class=na>BASE</span><span class=o>);</span>
+</code></pre></td></tr></table></div>
+</div>
+</div></li>
+<li>
+<p>参数配置</p>
+<p>ShardingSphere默认的XA事务管理器为Atomikos，通过在项目的classpath中添加jta.properties 来定制化Atomikos配置项。</p>
+<p>Saga可以通过在项目的classpath中添加saga.properties来定制化Saga事务的配置项。</p>
+</li>
+</ul>
+<h2 id=spi-加载剖析><a href=#spi-加载剖析 class=anchor-link><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href=#contents:spi-加载剖析 class=headings>SPI 加载剖析</a></h2>
+<p>在Apache ShardingSphere中，很多功能实现类的加载方式是通过SPI注入的方式完成的。 Service Provider Interface （SPI）是Java提供的一套被第三方实现或扩展的API，它可以用于实现框架扩展或 组件替换。</p>
+<p>本节汇总了Apache ShardingSphere所有通过SPI方式载入的功能模块。</p>
+<ul>
+<li>
+<p>SQL解析</p>
+<p>SQL解析的接口用于规定用于解析SQL的ANTLR语法文件。</p>
+<p>主要接口是SQLParserEntry，其内置实现类有MySQLParserEntry, PostgreSQLParserEntry, SQLServerParserEntry和OracleParserEntry。</p>
+</li>
+<li>
+<p>数据库协议</p>
+<p>数据库协议的接口用于Sharding-Proxy解析与适配访问数据库的协议。</p>
+<p>主要接口是DatabaseProtocolFrontendEngine，其内置实现类有</p>
+<p>MySQLProtocolFrontendEngine和PostgreSQLProtocolFrontendEngine。</p>
+</li>
+<li>
+<p>数据脱敏</p>
+<p>数据脱敏的接口用于规定加解密器的加密、解密、类型获取、属性设置等方式。</p>
+<p>主要接口有两个：Encryptor和QueryAssistedEncryptor，其中Encryptor的内置实现类有 AESEncryptor和MD5Encryptor。</p>
+</li>
+<li>
+<p>分布式主键</p>
+<p>分布式主键的接口主要用于规定如何生成全局性的自增、类型获取、属性设置等。</p>
+<p>主要接口为ShardingKeyGenerator，其内置实现类有UUIDShardingKeyGenerator和 SnowflakeShardingKeyGenerator。</p>
+</li>
+<li>
+<p>分布式事务</p>
+<p>分布式事务的接口主要用于规定如何将分布式事务适配为本地事务接口。</p>
+<p>主要接口为ShardingTransactionManager，其内置实现类有XAShardingTransactionManager和 SeataATShardingTransactionManager。</p>
+</li>
+<li>
+<p>XA事务管理器</p>
+<p>XA事务管理器的接口主要用于规定如何将XA事务的实现者适配为统一的XA事务接口。 主要接口为XATransactionManager，其内置实现类有AtomikosTransactionManager, NarayanaXATransactionManager和BitronixXATransactionManager。</p>
+</li>
+<li>
+<p>注册中心</p>
+<p>注册中心的接口主要用于规定注册中心初始化、存取数据、更新数据、监控等行为。</p>
+<p>主要接口为RegistryCenter，其内置实现类有Zookeeper。</p>
+</li>
+</ul>
+<h2 id=编排治理剖析><a href=#编排治理剖析 class=anchor-link><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href=#contents:编排治理剖析 class=headings>编排治理剖析</a></h2>
+<p>编排治理模块提供配置中心/注册中心（以及规划中的元数据中心）、配置动态化、数据库熔断禁用、 调用链路等治理能力。</p>
+<ul>
+<li>
+<p>配置中心</p>
+<p>配置集中化：越来越多的运行时实例，使得散落的配置难于管理，配置不同步导致的问题十分严 重。将配置集中于配置中心，可以更加有效进行管理。
+配置动态化：配置修改后的分发，是配置中心可以提供的另一个重要能力。它可支持数据源、表与 分片及读写分离策略的动态切换。</p>
+<ul>
+<li>
+<p>配置中心数据结构</p>
+<p>配置中心在定义的命名空间的config下，以YAML格式存储，包括数据源，数据分片，读写分 离、Properties配置，可通过修改节点来实现对于配置的动态管理。</p>
+<p><img src=https://gitee.com/chuchin/img/raw/master/20201224-145735-0197.png alt=20201224-145735-0197.png></p>
+</li>
+<li>
+<p>config/authentication</p>
+<pre><code>password: root 
+username: root
+</code></pre></li>
+<li>
+<p>config/sharding/props</p>
+<pre><code>sql.show: true
+</code></pre></li>
+<li>
+<p>config/schema/schemeName/datasource</p>
+<p>多个数据库连接池的集合，不同数据库连接池属性自适配（例如：DBCP，C3P0，Druid, HikariCP）。</p>
+<pre><code>ds_0: 
+dataSourceClassName: com.zaxxer.hikari.HikariDataSource 
+properties: 
+	url: jdbc:mysql://127.0.0.1:3306/lagou1?
+	serverTimezone=UTC&amp;useSSL=false 
+	password: root 
+	username: root 
+	maxPoolSize: 50 minPoolSize: 1
+ds_1: 
+dataSourceClassName: com.zaxxer.hikari.HikariDataSource 
+properties: 
+	url: jdbc:mysql://127.0.0.1:3306/lagou2?
+	serverTimezone=UTC&amp;useSSL=false 
+	password: root 
+	username: root 
+	maxPoolSize: 50 
+	minPoolSize: 1
+</code></pre></li>
+<li>
+<p>config/schema/sharding_db/rule</p>
+<p>数据分片配置，包括数据分片配置。</p>
+<pre><code>tables: 
+	b_order: 
+        actualDataNodes: ds_$-&gt;{0..1}.b_order_$-&gt;{0..1} 
+        databaseStrategy:
+        inline: 
+        shardingColumn: user_id 
+        algorithmExpression: ds_$-&gt;{user_id % 2}
+	keyGenerator: 
+        column: order_id
+	logicTable: b_order 
+        tableStrategy: 
+            inline: 
+                shardingColumn: order_id 
+                algorithmExpression: b_order_$-&gt;{order_id % 2}
+	b_order_item: 
+        actualDataNodes: ds_$-&gt;{0..1}.b_order_item_$-&gt;{0..1} 
+        databaseStrategy: 
+            inline: 
+                shardingColumn: user_id 
+                algorithmExpression: ds_$-&gt;{user_id % 2}
+        keyGenerator: 
+            column: order_item_id
+        logicTable: b_order_item 
+        tableStrategy: 
+            inline: 
+                shardingColumn: order_id 
+                algorithmExpression: b_order_item_$-&gt;{order_id % 2}
+</code></pre></li>
+<li>
+<p>config/schema/masterslave/rule读写分离独立使用时使用该配置。</p>
+<pre><code>name: ds_ms 
+masterDataSourceName: master 
+slaveDataSourceNames: 
+	- ds_slave0 
+	- ds_slave1
+loadBalanceAlgorithmType: ROUND_ROBIN
+</code></pre></li>
+<li>
+<p>动态生效</p>
+<p>在注册中心上修改、删除、新增相关配置，会动态推送到生产环境并立即生效。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>注册中心</p>
+<p>相对于配置中心管理配置数据，注册中心存放运行时的动态/临时状态数据，比如可用的proxy的实例，需要禁用或熔断的datasource实例。通过注册中心，可以提供熔断数据库访问程序对数据库 的访问和禁用从库的访问的编排治理能力。治理仍然有大量未完成的功能（比如流控等）</p>
+<ul>
+<li>
+<p>注册中心数据结构</p>
+<p>注册中心在定义的命名空间的state下，创建数据库访问对象运行节点，用于区分不同数据库 访问实例。包括instances和datasources节点。</p>
+<pre><code>instances 
+	├──your_instance_ip_a@-@your_instance_pid_x 
+	├──your_instance_ip_b@-@your_instance_pid_y 
+	├──....
+datasources 
+	├──ds0 
+	├──ds1 
+	├──....
+</code></pre></li>
+<li>
+<p>state/instances</p>
+<p>数据库访问对象运行实例信息，子节点是当前运行实例的标识。 运行实例标识由运行服务器 的IP地址和PID构成。运行实例标识均为临时节点，当实例上线时注册，下线时自动清理。 注册中心监控这些节点的变化来治理运行中实例对数据库的访问等。</p>
+</li>
+<li>
+<p>state/datasources</p>
+<p>可以控制读写分离，可动态添加删除以及禁用。</p>
+</li>
+<li>
+<p>熔断实例</p>
+<p>可在IP地址@-@PID节点写入DISABLED（忽略大小写）表示禁用该实例，删除DISABLED表示启用。</p>
+<p>Zookeeper命令如下：</p>
+<pre><code>[zk: localhost:2181(CONNECTED) 0] set /your_zk_namespace/your_app_name/state/instances/your_instance_ip_a@@your_instance_pid_x DISABLED
+</code></pre></li>
+<li>
+<p>禁用从库</p>
+<p>在读写分离场景下，可在数据源名称子节点中写入DISABLED表示禁用从库数据源，删除 DISABLED或节点表示启用。</p>
+<p>Zookeeper命令如下：</p>
+<pre><code>[zk: localhost:2181(CONNECTED) 0] set
+/your_zk_namespace/your_app_name/state/datasources/your_slave_datasource_nam e DISABLED
+</code></pre></li>
+<li>
+<p>支持的配置中心和注册中心</p>
+<p>ShardingSphere在数据库治理模块使用SPI方式载入数据到配置中心/注册中心，进行实例熔断和 数据库禁用。 目前，ShardingSphere内部支持Zookeeper和Etcd这种常用的配置中心/注册中心。 此外，您可以使用其他第三方配置中心/注册中心，例如Apollo、Nacos等，并通过SPI的方式 注入到ShardingSphere，从而使用该配置中心/注册中心，实现数据库治理功能。</p>
+</li>
+<li>
+<p>应用性能监控</p>
+<p>APM是应用性能监控的缩写。目前APM的主要功能着眼于分布式系统的性能诊断，其主要功能包 括调用链展示，应用拓扑分析等。</p>
+<p>ShardingSphere并不负责如何采集、存储以及展示应用性能监控的相关数据，而是将SQL解析与 SQL执行这两块数据分片的最核心的相关信息发送至应用性能监控系统，并交由其处理。 换句话 说，ShardingSphere仅负责产生具有价值的数据，并通过标准协议递交至相关系统。 ShardingSphere可以通过两种方式对接应用性能监控系统。</p>
+<ul>
+<li>使用OpenTracing API发送性能追踪数据。面向OpenTracing协议的APM产品都可以和 ShardingSphere自动对接，比如SkyWalking，Zipkin和Jaeger。</li>
+<li>使用SkyWalking的自动探针。 ShardingSphere团队与SkyWalking团队共同合作，在 SkyWalking中实现了ShardingSphere自动探针，可以将相关的应用性能数据自动发送到 SkyWalking中。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id=sharding-proxy实战><a href=#sharding-proxy实战 class=anchor-link><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96.0-59.27-59.26-59.27-155.7.0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757.0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037.0 01-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482.0 0120.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96.0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454.0 0020.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037.0 00-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639.0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a><a href=#contents:sharding-proxy实战 class=headings>Sharding-Proxy实战</a></h2>
+<p>Sharding-Proxy是ShardingSphere的第二个产品，定位为透明化的数据库代理端，提供封装了数据库二进制协议的服务端版本，用于完成对异构语言的支持。 目前先提供MySQL版本，它可以使用任何兼容MySQL协议的访问客户端(如：MySQL Command Client, MySQL Workbench等操作数据，对DBA更 加友好。</p>
+<ul>
+<li>向应用程序完全透明，可直接当做MySQL使用</li>
+<li>适用于任何兼容MySQL协议的客户端</li>
+</ul>
+<p><img src=https://gitee.com/chuchin/img/raw/master/20201224-141308-0645.png alt=20201224-141308-0645.png></p>
+<p>Sharding-Proxy的优势在于对异构语言的支持，以及为DBA提供可操作入口。</p>
+<p><strong>Sharding-Proxy使用过程：</strong></p>
+<ul>
+<li>
+<p>下载Sharding-Proxy的最新发行版；</p>
+</li>
+<li>
+<p>解压缩后修改conf/server.yaml和以config-前缀开头的文件，进行分片规则、读写分离规则配置</p>
+<p>编辑%SHARDING_PROXY_HOME%\conf\config-xxx.yaml</p>
+<p>编辑%SHARDING_PROXY_HOME%\conf\server.yaml</p>
+</li>
+<li>
+<p>引入依赖jar</p>
+<p>如果后端连接MySQL数据库，需要下载MySQL驱动， 解压缩后将mysql-connector-java5.1.48.jar拷贝到${sharding-proxy}\lib目录。</p>
+<p>如果后端连接PostgreSQL数据库，不需要引入额外依赖。</p>
+</li>
+<li>
+<p>Linux操作系统请运行bin/start.sh，Windows操作系统请运行bin/start.bat启动Sharding-Proxy。</p>
+<p>使用默认配置启动：${sharding-proxy}\bin\start.sh</p>
+<p>配置端口启动：${sharding-proxy}\bin\start.sh ${port}</p>
+</li>
+<li>
+<p>使用客户端工具连接。如: mysql -h 127.0.0.1 -P 3307 -u root -p root</p>
+</li>
+</ul>
+<p>若想使用Sharding-Proxy的数据库治理功能，则需要使用注册中心实现实例熔断和从库禁用功能。 Sharding-Proxy默认提供了Zookeeper的注册中心解决方案。只需按照配置规则进行注册中心的配置， 即可使用。</p>
+<p><strong>注意事项</strong></p>
+<ul>
+<li>
+<p>Sharding-Proxy 默认不支持hint，如需支持，请在conf/server.yaml中，将props的属性 proxy.hint.enabled设置为true。在Sharding-Proxy中，HintShardingAlgorithm的泛型只能是 String类型。</p>
+</li>
+<li>
+<p>Sharding-Proxy默认使用3307端口，可以通过启动脚本追加参数作为启动端口号。如: bin/start.sh 3308</p>
+</li>
+<li>
+<p>Sharding-Proxy使用conf/server.yaml配置注册中心、认证信息以及公用属性。</p>
+</li>
+<li>
+<p>Sharding-Proxy支持多逻辑数据源，每个以"config-"做前缀命名yaml配置文件，即为一个逻辑数据源。</p>
+</li>
+</ul>
+</div>
+</article>
+<div class=post-share>
+<div class=share-items>
+<div class="share-item twitter">
+<a href="https://twitter.com/share?url=https://chuchin.cn/tech/storage/mysql/mysql-segmentation-shardingsphere/&text=MySQL%20ShardingSphere%e5%ae%9e%e6%88%98&hashtags=MySQL,ShardingSphere,&via=" title=分享到「Twitter」 target=_blank rel=noopener><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon twitter-icon"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645.0 138.72-105.583 298.558-298.558 298.558-59.452.0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055.0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421.0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391.0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04.0-57.828 46.782-104.934 104.934-104.934 30.213.0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a>
+</div>
+<div class="share-item facebook">
+<a href="https://www.facebook.com/sharer/sharer.php?u=https://chuchin.cn/tech/storage/mysql/mysql-segmentation-shardingsphere/&hashtag=%23MySQL" title=分享到「Facebook」 target=_blank rel=noopener><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon facebook-icon"><path d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.78 90.69 226.38 209.25 245V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14.0 55.52 4.84 55.52 4.84v61h-31.28c-30.8.0-40.41 19.12-40.41 38.73V256h68.78l-11 71.69h-57.78V501C413.31 482.38 504 379.78 504 256z"/></svg></a>
+</div>
+<div class="share-item linkedin">
+<a href="https://www.linkedin.com/shareArticle?mini=true&url=https://chuchin.cn/tech/storage/mysql/mysql-segmentation-shardingsphere/&title=MySQL%20ShardingSphere%e5%ae%9e%e6%88%98&summary=%e6%9c%ac%e6%96%87%e6%ba%90%e4%bb%a3%e7%a0%81%e4%b8%8b%e8%bd%bd%ef%bc%9amysql-example.zip%20ShardingSphere%20%e4%bb%8b%e7%bb%8d%20Apache%20ShardingSpher%e2%80%a6%e2%80%a6&source=ChuChin" title=分享到「LinkedIn」 target=_blank rel=noopener><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon linkedin-icon"><path d="M416 32H31.9C14.3 32 0 46.5.0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6.0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3.0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2.0 38.5 17.3 38.5 38.5.0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6.0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2.0 79.7 44.3 79.7 101.9V416z"/></svg></a>
+</div>
+<div class="share-item telegram">
+<a href="https://t.me/share/url?url=https://chuchin.cn/tech/storage/mysql/mysql-segmentation-shardingsphere/&text=MySQL%20ShardingSphere%e5%ae%9e%e6%88%98" title=分享到「Telegram」 target=_blank rel=noopener><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" class="icon telegram-icon"><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm121.8 169.9-40.7 191.8c-3 13.6-11.1 16.9-22.4 10.5l-62-45.7-29.9 28.8c-3.3 3.3-6.1 6.1-12.5 6.1l4.4-63.1 114.9-103.8c5-4.4-1.1-6.9-7.7-2.5l-142 89.4-61.2-19.1c-13.3-4.2-13.6-13.3 2.8-19.7l239.1-92.2c11.1-4 20.8 2.7 17.2 19.5z"/></svg></a>
+</div>
+<div class="share-item weibo">
+<a href="https://service.weibo.com/share/share.php?&url=https://chuchin.cn/tech/storage/mysql/mysql-segmentation-shardingsphere/&title=MySQL%20ShardingSphere%e5%ae%9e%e6%88%98&pic=https://gitee.com/chuchin/img/raw/master/20201223-143757-0407.png&searchPic=false" title=分享到「新浪微博」 target=_blank rel=noopener><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon weibo-icon"><path d="M407 177.6c7.6-24-13.4-46.8-37.4-41.7-22 4.8-28.8-28.1-7.1-32.8 50.1-10.9 92.3 37.1 76.5 84.8-6.8 21.2-38.8 10.8-32-10.3zM214.8 446.7C108.5 446.7.0 395.3.0 310.4c0-44.3 28-95.4 76.3-143.7C176 67 279.5 65.8 249.9 161c-4 13.1 12.3 5.7 12.3 6 79.5-33.6 140.5-16.8 114 51.4-3.7 9.4 1.1 10.9 8.3 13.1 135.7 42.3 34.8 215.2-169.7 215.2zm143.7-146.3c-5.4-55.7-78.5-94-163.4-85.7-84.8 8.6-148.8 60.3-143.4 116s78.5 94 163.4 85.7c84.8-8.6 148.8-60.3 143.4-116zM347.9 35.1c-25.9 5.6-16.8 43.7 8.3 38.3 72.3-15.2 134.8 52.8 111.7 124-7.4 24.2 29.1 37 37.4 12 31.9-99.8-55.1-195.9-157.4-174.3zm-78.5 311c-17.1 38.8-66.8 60-109.1 46.3-40.8-13.1-58-53.4-40.3-89.7 17.7-35.4 63.1-55.4 103.4-45.1 42 10.8 63.1 50.2 46 88.5zm-86.3-30c-12.9-5.4-30 .3-38 12.9-8.3 12.9-4.3 28 8.6 34 13.1 6 30.8.3 39.1-12.9 8-13.1 3.7-28.3-9.7-34zm32.6-13.4c-5.1-1.7-11.4.6-14.3 5.4-2.9 5.1-1.4 10.6 3.7 12.9 5.1 2 11.7-.3 14.6-5.4 2.8-5.2 1.1-10.9-4-12.9z"/></svg></a>
+</div>
+<div class="share-item douban">
+<a href="https://www.douban.com/share/service?href=https://chuchin.cn/tech/storage/mysql/mysql-segmentation-shardingsphere/&name=MySQL%20ShardingSphere%e5%ae%9e%e6%88%98&text=%e6%9c%ac%e6%96%87%e6%ba%90%e4%bb%a3%e7%a0%81%e4%b8%8b%e8%bd%bd%ef%bc%9amysql-example.zip%20ShardingSphere%20%e4%bb%8b%e7%bb%8d%20Apache%20ShardingSpher%e2%80%a6%e2%80%a6" title=分享到「豆瓣」 target=_blank rel=noopener><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon douban-icon"><path d="M.643.92v2.412h22.714V.92H.643zm1.974 4.926v9.42h18.764v-9.42H2.617zm2.72 2.408H18.69v4.605H5.338V8.254zm1.657 7.412-2.512.938c1.037 1.461 1.87 2.825 2.512 4.091H0v2.385h24v-2.385h-6.678c.818-1.176 1.589-2.543 2.303-4.091l-2.73-.938a29.952 29.952.0 01-2.479 5.03h-4.75c-.786-1.962-1.677-3.641-2.672-5.03z"/></svg></a>
+</div>
+<div class="share-item qq">
+<a href="https://connect.qq.com/widget/shareqq/index.html?url=https://chuchin.cn/tech/storage/mysql/mysql-segmentation-shardingsphere/&title=MySQL%20ShardingSphere%e5%ae%9e%e6%88%98&summary=%e6%9c%ac%e6%96%87%e6%ba%90%e4%bb%a3%e7%a0%81%e4%b8%8b%e8%bd%bd%ef%bc%9amysql-example.zip%20ShardingSphere%20%e4%bb%8b%e7%bb%8d%20Apache%20ShardingSpher%e2%80%a6%e2%80%a6&pics=https://gitee.com/chuchin/img/raw/master/20201223-143757-0407.png&site=ChuChin" title=分享到「QQ」 target=_blank rel=noopener><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon qq-icon"><path d="M433.754 420.445c-11.526 1.393-44.86-52.741-44.86-52.741.0 31.345-16.136 72.247-51.051 101.786 16.842 5.192 54.843 19.167 45.803 34.421-7.316 12.343-125.51 7.881-159.632 4.037-34.122 3.844-152.316 8.306-159.632-4.037-9.045-15.25 28.918-29.214 45.783-34.415-34.92-29.539-51.059-70.445-51.059-101.792.0.0-33.334 54.134-44.859 52.741-5.37-.65-12.424-29.644 9.347-99.704 10.261-33.024 21.995-60.478 40.144-105.779C60.683 98.063 108.982.006 224 0c113.737.006 163.156 96.133 160.264 214.963 18.118 45.223 29.912 72.85 40.144 105.778 21.768 70.06 14.716 99.053 9.346 99.704z"/></svg></a>
+</div>
+<div class="share-item qzone">
+<a href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://chuchin.cn/tech/storage/mysql/mysql-segmentation-shardingsphere/&title=MySQL%20ShardingSphere%e5%ae%9e%e6%88%98&summary=%e6%9c%ac%e6%96%87%e6%ba%90%e4%bb%a3%e7%a0%81%e4%b8%8b%e8%bd%bd%ef%bc%9amysql-example.zip%20ShardingSphere%20%e4%bb%8b%e7%bb%8d%20Apache%20ShardingSpher%e2%80%a6%e2%80%a6&pics=https://gitee.com/chuchin/img/raw/master/20201223-143757-0407.png&site=ChuChin" title="分享到「QQ 空间」" target=_blank rel=noopener><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon qzone-icon"><path d="M23.985 9.202c-.032-.099-.127-.223-.334-.258-.207-.036-7.351-1.406-7.351-1.406s-.105-.022-.198-.07c-.092-.047-.127-.167-.127-.167S12.447.956 12.349.77C12.25.583 12.104.532 12 .532s-.251.051-.349.238c-.098.186-3.626 6.531-3.626 6.531s-.035.12-.128.167c-.092.047-.197.07-.197.07S.556 8.908.348 8.943c-.208.036-.302.16-.333.258a.477.477.0 00.125.449l5.362 5.49s.072.08.119.172c.016.104.005.21.005.21s-1.189 7.242-1.22 7.45.075.369.159.43c.083.062.233.106.421.013.189-.093 6.812-3.261 6.812-3.261s.098-.044.201-.061.201.061.201.061 6.623 3.168 6.812 3.261c.188.094.338.049.421-.013a.463.463.0 00.159-.43c-.021-.14-.93-5.677-.93-5.677.876-.54 1.425-1.039 1.849-1.747-2.594.969-6.006 1.717-9.415 1.866-.915.041-2.41.097-3.473-.015-.678-.071-1.17-.144-1.243-.438-.053-.215.054-.46.545-.831a2640.5 2640.5.0 012.861-2.155c1.285-.968 3.559-2.47 3.559-2.731.0-.285-2.144-.781-4.037-.781-1.945.0-2.275.132-2.811.168-.488.034-.769.005-.804-.138-.06-.248.183-.389.588-.568.709-.314 1.86-.594 1.984-.626.194-.052 3.082-.805 5.618-.535 1.318.14 3.244.668 3.244 1.276.0.342-1.721 1.494-3.225 2.597-1.149.843-2.217 1.561-2.217 1.688.0.342 3.533 1.241 6.689 1.01l.003-.022c.048-.092.119-.172.119-.172l5.362-5.49a.477.477.0 00.127-.449z"/></svg></a>
+</div>
+<div class="share-item qrcode">
+<div class=qrcode-container title=通过「二维码」><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon qrcode-icon"><path d="M0 224h192V32H0v192zM64 96h64v64H64V96zm192-64v192h192V32H256zm128 128h-64V96h64v64zM0 480h192V288H0v192zm64-128h64v64H64v-64zm352-64h32v128h-96v-32h-32v96h-64V288h96v32h64v-32zm0 160h32v32h-32v-32zm-64 0h32v32h-32v-32z"/></svg><div id=qrcode-img></div>
+</div>
+<script src=https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js></script>
+<script>var typeNumber=0,errorCorrectionLevel='L',qr=qrcode(typeNumber,errorCorrectionLevel);qr.addData('https://chuchin.cn/tech/storage/mysql/mysql-segmentation-shardingsphere/'),qr.make(),document.getElementById('qrcode-img').innerHTML=qr.createImgTag()</script>
+</div>
+</div>
+</div>
+<div class=related-posts>
+<h2 class=related-title>相关文章：<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon related-icon"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6.0-12-5.4-12-12v-92h-92c-6.6.0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6.0 12 5.4 12 12v92h92c6.6.0 12 5.4 12 12v56z"/></svg></h2>
+<ul class=related-list>
+<li class=related-item>
+<a href=../../../../tech/storage/mysql/mysql-tools-datax/ class=related-link>MySQL 工具 Datax</a>
+</li>
+<li class=related-item>
+<a href=../../../../tech/storage/mysql/mysql-tools-elk/ class=related-link>MySQL 工具 ELK</a>
+</li>
+<li class=related-item>
+<a href=../../../../tech/storage/mysql/mysql-tools-mysqlmtop/ class=related-link>MySQL 工具 MySQLMTOP</a>
+</li>
+<li class=related-item>
+<a href=../../../../tech/storage/mysql/mysql-tools-prometheus/ class=related-link>MySQL 工具 Prometheus</a>
+</li>
+<li class=related-item>
+<a href=../../../../tech/storage/mysql/mysql-tools-yearning/ class=related-link>MySQL 工具 Yearning</a>
+</li>
+</ul>
+</div>
+<div class=post-tags>
+<a href=../../../../tags/mysql/ rel=tag class=post-tags-link><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49.0 48 0h204.118a48 48 0 0133.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137.0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882.0L14.059 286.059A48 48 0 010 252.118zM112 64c-26.51.0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>MySQL</a>
+<a href=../../../../tags/shardingsphere/ rel=tag class=post-tags-link><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon tag-icon"><path d="M0 252.118V48C0 21.49 21.49.0 48 0h204.118a48 48 0 0133.941 14.059l211.882 211.882c18.745 18.745 18.745 49.137.0 67.882L293.823 497.941c-18.745 18.745-49.137 18.745-67.882.0L14.059 286.059A48 48 0 010 252.118zM112 64c-26.51.0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48z"/></svg>ShardingSphere</a>
+</div>
+<footer class=minimal-footer>
+<div class=post-tag><a href=../../../../tags/mysql/ rel=tag class=post-tag-link>#mysql</a> <a href=../../../../tags/shardingsphere/ rel=tag class=post-tag-link>#shardingsphere</a></div>
+<div class=post-category>
+<a href=../../../../tech/ class="post-category-link active">tech</a>
+</div>
+</footer>
+</div>
+</main>
+<div id=back-to-top class=back-to-top>
+<a href=#><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon arrow-up"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6.0-33.9L207 39c9.4-9.4 24.6-9.4 33.9.0l194.3 194.3c9.4 9.4 9.4 24.6.0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3.0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"/></svg></a>
+</div>
+<footer id=footer class=footer>
+<div class=footer-inner>
+<div class=site-info>©&nbsp;2017–2021&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3.0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;Chu</div><div class=site-copyright><a href=https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh target=_blank rel=noopener>CC BY-NC-SA 4.0</a></div>
+<div class=busuanzi-site-uv-and-pv>
+<span id=busuanzi_container_site_uv>本站访客数&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon busuanzi-site-uv"><path d="M224 256c70.7.0 128-57.3 128-128S294.7.0 224 0 96 57.3 96 128s57.3 128 128 128zm89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2.0 422.4V464c0 26.5 21.5 48 48 48h352c26.5.0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4z"/></svg>&nbsp;<span id=busuanzi_value_site_uv></span></span>&nbsp;|&nbsp;<span id=busuanzi_container_site_pv>本站访问量&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="icon busuanzi-site-pv"><path d="M288 144a110.94 110.94.0 00-31.24 5 55.4 55.4.0 017.24 27 56 56 0 01-56 56 55.4 55.4.0 01-27-7.24A111.71 111.71.0 10288 144zm284.52 97.4C518.29 135.59 410.93 64 288 64S57.68 135.64 3.48 241.41a32.35 32.35.0 000 29.19C57.71 376.41 165.07 448 288 448s230.32-71.64 284.52-177.41a32.35 32.35.0 000-29.19zM288 4e2c-98.65.0-189.09-55-237.93-144C98.91 167 189.34 112 288 112s189.09 55 237.93 144C477.1 345 386.66 4e2 288 4e2z"/></svg>&nbsp;<span id=busuanzi_value_site_pv></span></span>
+</div>
+<ul class=socials><li class=socials-item>
+<a href=https://github.com/chuchinc target=_blank rel="external noopener" title=GitHub><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon social-icon"><path d="M12 .297c-6.63.0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577.0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93.0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176.0.0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22.0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22.0 1.606-.015 2.896-.015 3.286.0.315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+</li><li class=socials-item>
+<a href=mailto:edmond1122@foxmail.com target=_blank rel="external noopener" title=Email><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon social-icon"><path d="M464 64H48C21.49 64 0 85.49.0 112v288c0 26.51 21.49 48 48 48h416c26.51.0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 4e2V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V4e2H48z"/></svg></a>
+</li><li class=socials-item>
+<a href=../../../../rss.xml target=_blank rel="external noopener" title=RSS><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon social-icon"><path d="M19.199 24C19.199 13.467 10.533 4.8.0 4.8V0c13.165.0 24 10.835 24 24h-4.801zM3.291 17.415c1.814.0 3.293 1.479 3.293 3.295.0 1.813-1.485 3.29-3.301 3.29C1.47 24 0 22.526.0 20.71s1.475-3.294 3.291-3.295zM15.909 24h-4.665c0-6.169-5.075-11.245-11.244-11.245V8.09c8.727.0 15.909 7.184 15.909 15.91z"/></svg></a>
+</li></ul>
+</div>
+</footer>
+</div>
+<script>'serviceWorker'in navigator&&window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js')})</script>
+<script src=https://cdn.jsdelivr.net/npm/medium-zoom@latest/dist/medium-zoom.min.js></script>
+<script>mediumZoom(document.querySelectorAll('div.post-body img'),{background:'hsla(var(--color-bg-h), var(--color-bg-s), var(--color-bg-l), 0.95)'})</script>
+<script src=https://cdn.jsdelivr.net/npm/instant.page@3.0.0/instantpage.min.js type=module defer></script>
+<script async src=https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js></script>
+</body>
+</html>
